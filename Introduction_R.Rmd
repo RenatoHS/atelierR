@@ -1,0 +1,1614 @@
+---
+title: "Atelier - Introduction à l'environnement R"
+author: "Renato Henriques-Silva"
+date: \today
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+library(kableExtra)
+options(knitr.table.format = "latex")
+```
+
+
+
+# Module I
+
+## L'environnement R
+
+R est un environnement d'analyse de données développé sous licence libre. Très puissant pour réaliser n’importe quel type d’analyses statistiques, il s’avère aussi extrêmement performant dans la visualisation des données.
+
+## Pré-requis pour l'atelier
+
+Installer le logiciel R
+
+* Telécharger le logiciel R sur ce lien [LIEN](https://cran.r-project.org/) 
+* Telécharger le logiciel R-Studio sur ce lien [LIEN](https://www.rstudio.com/products/rstudio/download/#download) 
+
+N'oubliez pas de choisir l'option de téléchargement selon votre système opérationelle (Windows, OS, Linux).
+R-Studio est un environnement de développement (EDI) qui donne une interface plus "user-friendly" à l'utilisation de R.
+
+
+## Arithmétique
+
+R peut être utilisé comme une simple calculatrice
+
+* Addition:   `r text_spec("+", background = '#E6E6E6')`
+* Substraction:   `r text_spec("-", background = '#E6E6E6')`
+* Multiplication:   `r text_spec("*", background = '#E6E6E6')`
+* Division:   `r text_spec("/", background = '#E6E6E6')`
+* Exponent:   `r text_spec("^", background = '#E6E6E6')`
+* Modulo:  `r text_spec("%%", background = '#E6E6E6')` 
+
+\  
+
+```{r}
+
+# Pour écrire des commentaires dans votre script, utilisez "#" avant le  texte
+# Les commentaires ne sont pas éxecutés quand le script tourne
+
+# Par exemple, la prochaine ligne n'est pas éxécutée donc on a pas le résultat attendu (7)
+
+# 5 + 2 
+
+# Si on enlève le '#', l'addition est éxécutée et on obtien le résultat (7)
+
+# Addition
+5 + 2
+# Substraction
+5 - 2
+# Multiplication
+5 * 2
+# Division
+5 / 2
+# Exponent
+5 ^ 2
+# Modulo
+5 %% 2
+```
+
+## Variables 
+
+Une variable informatique est un espace mémoire réservé, un objet virtuel manipulé par un programme.
+Pour affecter une variable il faut faire le suivant:
+
+x <- 5
+
+\  
+
+```{r}
+x <- 5 # afféctation de la variable x
+
+x # affichez le contenu de la variable x
+
+# Vous pouvez utiliser "=" aussi me ce n'est pas recommandé.
+
+```
+
+### Opération avec des variables 
+
+Tout comme les chiffres, vouz pouvez faire des opérations arithmétiques avec des variables. Par exemple avec x + 5 vous obtenez 10. 
+
+\  
+```{r}
+
+x + 5
+
+```
+
+Vous pouvez aussi faire une opération seulement avec des variables (et aussi affecté le résultat à une 3^ème^ variable).
+
+\  
+```{r}
+# afféctation de la variable y
+
+y <- 10 
+
+# afféctation de la variable z avec le résultat de x/y
+
+z <- x/y
+
+# affichage de z
+z
+
+```
+
+### Classes de base des variables sur R
+
+* __numeric__, donc des nombres qui ont des valeurs décimals `r text_spec("3.82", background = '#E6E6E6')`
+* __integer__, donc des nombres entier `r text_spec("3", background = '#E6E6E6')` - c'est une sous-classe de "numerics"
+* __logical__, donc une variable booléene `r text_spec("TRUE", background = '#E6E6E6')` ou `r text_spec("FALSE", background = '#E6E6E6')`
+* __character__, donc du texte (aussi appelé de  string) `r text_spec("'le chien'", background = '#E6E6E6')`
+
+\  
+
+Pour créer une variable booléene, il faut seulement affécté les valeurs de `r text_spec("TRUE", background = '#E6E6E6')` ou `r text_spec("FALSE", background = '#E6E6E6')`, ou même `r text_spec("T", background = '#E6E6E6')` et `r text_spec("F", background = '#E6E6E6')`. 
+```{r}
+var_bool <- FALSE
+var_bool
+
+var_bool <- F
+var_bool
+```
+
+Pour crérer une variable string, on a juste à encapsuler le contenu par des " " ou des ' '.
+
+```{r}
+
+var_string <- "le chien"
+var_string
+
+var_string <- 'le chat'
+var_string
+```
+
+
+Notez que R va prioriser la classe "numeric" par rapport à la classe "integer" quand vous affectez une nouvelle variable, même
+si le chiffre est entier. 
+
+Pour déterminer le type d'une variable, on peut utiliser la fonction _class()_ .
+
+\  
+```{r}
+# Par exemple, x est entier mais quand on vérifie son type,
+# R nous indique qu'il est 'numeric'
+class(x)
+
+# var_bool est "logical"
+class(var_bool)
+
+# var_string est "character"
+class(var_string)
+
+```
+
+### Valeurs Manquantes
+
+Souvant dans les bases de données utilisés vous allez rencontrer des valeurs manquantes. Sur R elles sont affichés sous la forme de `r text_spec("NA", background = '#E6E6E6')` pour *not available*. 
+
+```{r}
+
+taille <- c(110, 30, NA, 40, NA)
+taille
+
+# Notez que les valeurs "NA" occupent une position. Donc quand on demande la longueur du vecteur "taille" R nous répond 5 (et non 3)
+length(taille)
+
+```
+
+Il ne faut pas confondre `r text_spec("NA", background = '#E6E6E6')` avec un autre objet que l’on rencontre sous R appelé `r text_spec("NULL", background = '#E6E6E6')` qui représente l’objet vide. `r text_spec("NULL", background = '#E6E6E6')` ne contient absolument rien du tout. La différence se comprends mieux lorsque que l’on essaie de combiner ces objets. 
+.
+```{r}
+taille<-c(110, 30, NULL, 40, NA)
+# Au contraire de NA, NULL n'occupe pas de position
+length(taille)
+
+taille
+
+length(c(NULL,NULL))
+
+length(c(NA,NA))
+
+```
+
+### Dates
+
+Un autre type de variable que vous pouvez rencontrer ce sont les *dates*.
+Vous pouvez créer cette classe de variable avec la fonction _as.Date()_: 
+
+```{r}
+
+# En premier créez un vecteur de caractères avec les dates
+dates <- c("02/27/92", "02/27/92", "01/14/92", "02/28/92", "02/01/92")
+# le type de variable est "character"
+class(dates)
+
+# en suite, vous utilisez la fonction as.Date()
+# ATTENTION!! il faut spécifier le format des dates avec  
+# l'argument format (en utilisant des caractères) dans la fonction
+
+# Sur le premier l'example, il y a le mois (m) 
+# suivi du jour (d) et ensuite l'année (y).
+# Et ils sont séparés par des "/"
+# Donc le format est le suivant:
+dates <- as.Date(dates, format = "%m/%d/%y")
+dates
+# Et la classe change aussi
+class(dates)
+
+# Si c'est un autre séparateur, par exemple "-"
+dates <- c("02-27-92", "02-27-92", "01-14-92", "02-28-92", "02-01-92")
+# la fonction as.Date vous retournera des NA si vous utilisez le mauvais format
+as.Date(dates, format = "%m/%d/%y")
+
+# Si vous utilisez le séparateur approprié
+dates <- as.Date(dates, format = "%m-%d-%y")
+dates
+# Il y a d'autres format qui peuvent être utilisés
+# Pour en savoir plus, accedez à la page d'aide de la fonction en utilisant -> ?fonction
+# ?as.Date
+
+```
+
+### Fonctions de verification et conversion de variables 
+
+#### Verification
+
+Ces fonctions retournent une valeur logique, TRUE (oui) et FALSE (non).
+
+* *is.numeric()*			
+* *is.character()*		
+* *is.logical()*		
+* *is.factor()*			
+* *is.na()*
+* *is.null()*
+
+```{r}
+# Est un vecteur numérique ?
+is.numeric(5)
+
+is.numeric('5')
+
+# Est un vecteur caractère ?
+is.character('5')	
+
+is.character('chien')
+
+# Est un facteur ?
+is.factor('chien')
+
+is.factor(factor('chien'))
+
+# Est une valeur logique ?
+is.logical(TRUE)
+
+is.logical(FALSE)
+
+# Est une valeur manquante?
+is.na(5)
+
+is.na(NA)
+
+# Est une valeur nulle?
+x <- NULL
+is.null(x)
+
+```
+
+#### Conversion
+
+Ces fonctions transforment les variables d'une classe à l'autre. Chacune a des conditions spécifiques pour fonctionner. 
+Utiliser le ? pour en savoir plus.
+
+* *as.character()*
+* *as.numeric()*
+* *as.factor()*
+* *as.logical()*
+* *as.Date()*
+
+```{r}
+# Quelques examples
+
+as.numeric('5')
+
+is.numeric(as.numeric('5'))
+
+as.character(c(10,2))
+
+
+```
+
+
+## Objets
+
+Les objets dans R servent à regrouper les variables (chiffres, textes, FALSE ou TRUE etc.).
+
+### Vecteurs
+
+Un vecteur est un ensemble de valeurs de classe identique avec 1 dimension.
+```{r echo=FALSE, out.width = '100%'}
+knitr::include_graphics(paste(getwd(), "fig/vector.png", sep ='/'))
+```
+
+\  
+
+Il y a plusieurs manières de créer des vecteurs.
+
+\  
+```{r}
+
+# quelques examples
+
+# vecteur à un élément
+vec <- 7
+vec
+# Série d'entiers (de 1 a 12)
+vec <- 1:12
+vec
+# Série de 1 a 10 avec pas de 2
+vec <- seq(from = 1, to = 10, by = 2)
+vec
+# répétition de "aa" 5 fois
+vec <- rep("aa",5)
+vec
+# Concaténation (ici caractères)
+vec <- c(2,5,-3,8,"a")
+vec
+# Vecteur numérique
+vec <- c(1,5,-36,3.66)
+vec
+# Vecteur logique
+vec <- c(T,T,T,F,F)
+vec
+
+```
+\  
+Vous pouvez aussi donner des noms à chaque élément d'un vecteur avec la fonction *names()*
+\  
+```{r}
+vec <-c(100,20,45,60)
+names(vec)<-c("A","B","C","D")
+vec
+
+# comme vous voyez, on crée un vecteur de 'strings' de la même taille que le vecteur "vec" et on utilise 
+# la fonction "names" pour indiquer que ça va etre les noms de chaque élément de "vec".
+
+# si vous voulez effacer les noms, utilisez la fonction "unname"
+unname(vec)
+```
+\  
+
+Pour afficher la taille (ou la longueur) d'un vecteur, il faut utiliser la fonction _length()_.
+
+```{r}
+# longueur de "vec"
+length(vec)
+
+```
+
+### Matrices
+
+Une matrice est un vecteur avec 2 dimensions.
+```{r, echo=FALSE, out.width = '50%'}
+knitr::include_graphics(paste(getwd(), "fig/matrix.png", sep ='/'))
+```
+
+\  
+
+Il y a plusieurs manières de créer des matrices.
+
+\  
+```{r}
+
+# quelques examples
+
+# 4 élements, 2 lignes et 3 colonnes
+mat <-matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3)
+mat
+
+# 4 élements, 3 lignes et 2 colonnes
+mat<- matrix(c(1, 2, 3, 4, 5, 6), nrow = 3, ncol = 2)
+mat
+
+# série de 1 à 20 répartis entre 4 lignes et 5 colonnes 
+mat <- matrix(seq(1,20,1), nrow=4, ncol=5)
+mat 
+
+# notez que la matrice est remplie par les colonnes en premier 
+# si vous voulez qu'elle se remplisse par les lignes, il faut activer l'argument "byrow" 
+# avec le booléan "TRUE" (par défault il est en mode FALSE)
+mat <- matrix(seq(1,20,1), nrow=4, ncol=5, byrow = TRUE)
+mat 
+
+# cbind = combinaison de deux vecteurs de 4 élements par colonne
+mat <- cbind(1:4,5:8)
+mat 
+
+# rbind = combinaison de deux vecteurs de 4 élements par ligne
+mat <- rbind(1:4,5:8)
+mat 
+```
+
+\  
+
+Vous pouvez nommer les lignes et les colonnes d'une matrice avec les fonctions *rownames()* et *colnames()*, respectivement.
+Vous pouvez aussi vérifier le nombre de lignes et colonnes de la matrice avec les fonctions *nrow()*, *ncol()* et *dim()*.
+
+\
+```{r}
+# Par exemple
+
+mat <-cbind(c(10,30,50,60),c(100,50,120,130))
+rownames(mat)<-c("placette_1","placette_2","placette_3","placette_4")
+colnames(mat)<-c("Avril","Octobre")
+mat
+
+# vous pouvez aussi faire afficher les noms des colonnes (ou lignes) d'une matrice
+rownames(mat)
+colnames(mat)
+
+# Il es possible de nommer les 2 dimensions de la matrice directement 
+# dans la fonction "matrix" avec l'argument "dimnames". 
+mat <- matrix(c(10,30,50,60,100,50,120,130), nrow = 4, ncol =2, 
+              dimnames = list(c("placette_1","placette_2",
+                                "placette_3","placette_4"),c("Avril","Octobre")))
+
+# Pour ce il faut créer une "list" avec les 2 vecteurs de noms 
+# (le premier pour les lignes et le deuxième pour les colonnes)
+
+# On parlera de l'objet de classe "list" plus tard
+
+# Affichez le nombre de lignes et colonnes ou les deux en même temps. 
+nrow(mat)
+ncol(mat)
+dim(mat)
+
+```
+
+### Array
+
+Une "array" est un objet contenant des valeurs de même classe avec plus de deux dimensions. 
+\ 
+```{r echo=FALSE, out.width = '100%'}
+knitr::include_graphics(paste(getwd(), "fig/array.png", sep ='/'))
+```
+\    
+\   
+Pour une array de 3 dimensions, vous pouvez imaginez un livre: sa "hauteur"" répresente le nombre de lignes, sa "largeur" répresente le nombre de colonnes et son épaisseur c'est la taille de la 3^eme^ dimension.
+
+```{r}
+# Pour une array de 4 lignes, 5 colonnes et 3 "de la 3ême dimension"
+# où dans chaque dimension contiennent une séquence de 1 à 20
+
+arr <- array(rep(1:20,4), dim=c(4,5,4))
+arr
+```
+Comme vous voyez, rep(1:20,4) repète la séquence "1 à 20". 
+R va en premier completer les colonnes, ensuite les lignes et finalement il cherche la troisième dimension. Donc vous arrez une séquence de 1 à 20 dans les 4 "pages" de la 3ème dimension de l'objet.
+\  
+Vous pouvez toujours ajouter d'autres dimensions aux "arrays" un ajoutant un nouveau élemément à l'argument dim. Ça deviens compliqué à visualiser par contre! :) 
+
+### Facteurs
+
+Dans certains cas on voudrais avoir des variables catégoriques pour utiliser dans des tests statistiques.
+Ceci est fait avec les "factors" en utilisant la fonction _factor()_.
+
+```{r}
+
+# Par exemple, le vecteur "sexe" contenant des strings "Mâle" ou "Femelle"
+
+sexe <- c("Mâle","Femelle","Mâle","Mâle","Femelle")
+class(sexe)
+sexe
+# Pour le transformer en facteur, on fait simplement:
+sexe <- factor(sexe)
+class(sexe)
+sexe
+
+```
+\  
+
+Notez que la classe "factor" peux être nominale ou ordinale.
+
+Une variable nomimale suggère que l'ordre des catégories n'est pas importante. Par exemple il n'y as pas d'ordre entre "Mâle" et "Femelle".
+
+Mais si par exemple vous avez des catégories de température avec ordre ("Froid","Tiède","Chaud") et vous voulez utiliser un test statistique pour variable ordinale, il faut le préciser sur la fonction _factor()_.
+
+\  
+
+```{r}
+
+# Le vecteur "temp" contenant une série de strings "Froid", "Tiède" et "Chaud"
+
+temp <- c("Froid","Chaud","Froid","Tiède","Tiède","Chaud","Froid")
+
+
+# Pour le transformer en facteur de type ordinale:
+temp <- factor(temp, order = TRUE, levels = c("Froid","Tiède","Chaud"))
+temp
+
+# avec order = TRUE vous indiquez que l'ordre est importante (par défault il est en mode FALSE)
+# l'argument "levels" sert a préciser l'ordre des catégories.
+
+```
+\  
+Vous pouvez aussi compter combiens d'élements sont de chaque catégorie avec la fonction _summary()_
+\  
+```{r}
+# Combiens de mâles et femelles on trouve dans le vecteur "sexe" ?
+summary(sexe)
+
+# Et sur "temp" ?
+summary(temp)
+
+
+```
+\  
+La distinction entre ordinal et nominale est observé quand on compare les catégories.
+\  
+```{r}
+
+# Par exemple si vous écrivez:
+
+# sexe[2] > sexe[1]
+
+sexe[2]
+sexe[1]
+
+# C'est à dire, vous affirmez que le deuxième élement du vecteur sexe est supérieure 
+# au premier élement du vecteur sexe
+
+sexe[2] > sexe[1]
+
+# R vous retourne une erreur avec le résultat NA
+# Par ce que il y a rien qui indique que la femelle est supérieure au mâle (ou vice-versa)
+
+# Par contre pour le vecteurs de températures, si vous affirmez que 
+# le deuxième élement du vecteur sexe est supérieure au premier élement du vecteur sexe
+
+temp[2]
+temp[1]
+
+# C'est à dire que Chaud est supérieure à Froid
+
+temp[2] > temp [1]
+
+# R vous dit TRUE 
+# Parce que vous avez défini dans "levels" que Chaud viens après Froid.
+```
+
+### Data frames
+
+Le data frame est un tableau à 2 dimensions où on peux avoir des variables de classes différents.
+Visuellement c'est très similaire à une matrice mais il fonctionne plutôt comme une liste.
+C'est un des objets les plus utilisé en R. Vous pouvez créer un "data frame" avec la fonction _data.frame()_ : 
+
+```{r}
+# Par exemple, vous avez des données sur des espèces de poissons. 
+# Vous pouvez mettre les différentes variables dans un data.frame
+
+# Variables
+sexe <- c("Mâle","Femelle","Mâle","Mâle","Femelle")
+taille <- c(100, 94, 40, 120, 30)
+espece <- c("Esox lucius","Esox lucius", "Barbus barbus","Barbus barbus","Barbus barbus")
+
+# Pour créer le data frame, il faut juste passer les arguments "espece", 
+# "taille" et "sexe" (les vecteurs) dans la fonction argument
+# Par défault les variables vont être mi dans les colonnes (c'est la convention!)
+df <-data.frame(espece, sexe, taille)
+df
+
+# Si vous voulez rajouter une variable ensuite, simplement la combiné 
+# avec le dataframe avec la fonction "cbind". Pour que ça marche il 
+# faut qu'ils aient le même nombre de ligne.
+age <- c(1, 1 , 2, 3 ,1)
+
+df <- cbind(df, age)
+df
+
+# nombre de lignes/colonnes d'un data frame
+dim(df)
+
+```
+\  
+
+Notez que si vous utiliser la fonction _class()_, R vous indiquera que c'est un data frame. 
+\   
+```{r}
+
+class(df)
+
+# Si vous voulez savoir la classe de chaque colonne du data frame, il faut faire le suivant
+sapply(df,class)
+
+# On parlera des fonctions "apply","lapply","sapply" etc plus tard
+
+```
+\  
+
+### Listes
+
+Le dernier objet que vous allez voir c'est les listes. Une liste peu contenier des objets de différents classes et de différentes dimensions. 
+Chaque objet est rangé dans un "compartiment" de la liste. Pour créer une liste il faut tout simplement faire appelle à la fonction _list()_:
+
+\  
+
+```{r}
+# Par exemple on va créer une liste avec les objets créés précédemment
+
+liste_a <- list(vec, mat, df)
+liste_a
+
+# Vous pouvez aussi donner des noms à chaque compartiment de la liste
+
+liste_b <-list(echan_inv = vec, ench_pla = mat, camp_peche = df)
+# et utiliser le format "list$nom" pour afficher chaque compartiment
+liste_b$echan_inv
+
+liste_b$ench_pla
+
+liste_b$camp_peche
+
+# pour additioner un nouveau élément à la liste, il faut simplement 
+# la concatener avec cette nouvel élément. 
+# ATTENTION, si le nouvel élément a plus d'une valeur, 
+# il faut l'encapsuler dans la fonction list dans la concatenation (voir dessous)
+
+# Si vous ne faites pas ça, R va mettre chaque élément de 
+# l'objet dans un compartiment différent de la liste
+nouv_vec <- seq(1,20,3)
+# vous pouvez aussi lui donner un nom spécifique
+liste_b <- c(liste_b, vecteur = list(nouv_vec))
+
+liste_b
+
+# Pour savoir le nombre de compartiments (ou la taille/longueur)
+# d'une liste --> fonction length()
+length(liste_b)
+
+# pour savoir la  taille des objets dans la liste:
+# length() pour les vecteurs et listes 
+# dim() ,nrwo(), ncol() pour les matrice/array/dataframe
+# ex. dimension du compartiment troi
+dim(liste_b[[3]])
+# nombre de lignes du compartiment 3
+nrow(liste_b[[3]])
+
+
+```
+# Module II
+
+## Indexation
+
+Maintenant que vous avez pris connaissances avec les principales classes de variables et types d'objets traiter par R, on va apprendre comment acceder aux différents éléments de ces objets. L'accès aux données contenues dans les objets se fait grâce aux index (positions des données) ou par l'appel explicit des noms de variables.
+
+### Indexation des vecteurs
+
+```{r}
+# afficher "vec"
+vec
+# afficher le premier élément de "vec"
+vec[1]
+
+# si vous voulez afficher plus d'un élément d'un vecteur,
+# il faut mettre un vecteur d'indices
+# afficher les deux premiers éléments de "vec"
+vec[1:2]
+
+# afficher le deuxième et le quatrième elément de "vec"
+vec[c(2,4)]
+
+# il est possible d'indexer les valeurs un désordres
+vec[c(3,4,1)]
+
+```
+
+### Indexation des matrices
+
+```{r}
+# afficher "mat"
+mat
+
+# afficher le 9ème élément de mat
+mat[9]
+
+# les matrice sont indéxés par le format [lignes,colonnes]
+# ligne 1, colonne 2
+mat[1,2] 
+
+# si vous voulez afficher une ligne (ou colonne entière)
+# afficher la deuxième colonne entière
+mat[,2]
+
+# afficher la troisième ligne entière
+mat[3,]
+
+# afficher les trois premiers élément de la deuxième colonne
+mat[1:3,2]
+
+# afficher les lignes 1, 2 et 4
+mat[c(1,2,4),]
+
+# afficher les 2 derniers éléments des deux colonnes
+mat[3:4,1:2]
+
+# vous pouvez afficher la dernière colononne en utilisant la fonction "ncol" 
+# (qui donne le nombre de colonnes de l'objet)
+mat[,ncol(mat)]
+
+# la même chose pour les lignes (avec la fonction "nrow")
+mat[nrow(mat),]
+
+# afficher les éléments 1 et 4 de la dernière colonne
+mat[c(1,4),ncol(mat)]
+
+# afficher les éléments de la deuxième colonne en utilant sont nom
+mat[,"Octobre"]
+```
+
+### Indexation des data frames
+
+```{r}
+# ligne 1, colonne 2
+df[1,2]
+
+# deux premiers éléments de la quatrième colonne
+df[c(1,2),4]
+
+# cinquième élément de la colonne "taille"
+df[5,"taille"]
+
+# Vu que le data.frame fonctionne comme une liste,
+# une autre manière d'afficher une colonne d'un data frame est avec "$"
+
+# afficher la variable "espèce"
+df$espece
+
+# afficher le troisième élément de la colonne "espèce"
+df$espece[3] 
+# df$variable se comporte comme un vecteur
+
+
+
+```
+
+### Indexation des listes
+
+```{r}
+# afficher le premier compartiment de la liste
+liste_b[[1]]
+
+# après afficher l'objet du compartiment, l'indexation 
+# dans cette objet suis le format spécifique de l'objet
+# pour acceder les éléments 2 à 4 du vecteur contenu 
+# dans le premier  compartiment de la liste
+liste_b[[1]][2:4]
+
+# pour acceder à la colone espèce du data frame contenu dans le compartiment 3
+liste_b[[3]][,1]
+# autre façon
+liste_b[[3]]$espece 
+# autre façon
+liste_b[[3]][,"espece"]
+
+# Si les compartiments on des noms, vous pouvez les afficher avec "$"
+liste_b$camp_peche
+
+# Et la l'indexation dans le compartiment ce fait comme l'exemple précédent
+liste_b$camp_peche$espece
+
+
+```
+
+### Indexation négative
+
+De la même manière que l'indexation númerique est utiliser pour afficher certains éléments, l'indexation négative est utiliser pour cacher les éléments choisis.
+
+```{r}
+vec
+# on ne veux pas voir le 2 élément
+vec[-2]
+
+# on ne veux pas voir les éléments 1 et 3
+vec[-c(1,3)]
+```
+
+## Indexation par condition
+
+L'indexation par condition, _Logical indexing_ en anglais, est un outil très pussaint. C'est à ce moment que vous allez comprendre l'importance des variables booléenes. En gros, ça consiste à fournir un vecteur logique indicant si chaque élément est inclu (si  `r text_spec("TRUE", background = '#E6E6E6')` ) ou exclu (si  `r text_spec("FALSE", background = '#E6E6E6')`).
+
+```{r echo=FALSE, out.width = '50%'}
+knitr::include_graphics(paste(getwd(), "fig/logical_indexing.png", sep ='/'))
+```
+
+```{r}
+# Par example
+vec <- c(1,2,3,4,5)
+
+vec[c(TRUE,FALSE,TRUE,FALSE,FALSE)]
+```
+
+Par contre, faire de l'indexation avec des vecteurs logiques créé avec _c()_ n'est pas optimale. Une manière plus éfficace de faire de l'indexation est un créant des vecteurs logiques avec des opérations de comparaison.
+
+### Opérateurs de comparaison
+
+Voici la liste des opérateurs de comparaison pour obtenir un vecteur logique:
+
+* égale à:   `r text_spec("==", background = '#E6E6E6')`
+* différent de:   `r text_spec("!=", background = '#E6E6E6')`
+* strictement supérieur à:   `r text_spec(">", background = '#E6E6E6')`
+* strictement inférieure à:   `r text_spec("<", background = '#E6E6E6')`
+* supérieure ou égale à:   `r text_spec(">=", background = '#E6E6E6')`
+* inférieure ou égale à:  `r text_spec("<=", background = '#E6E6E6')` 
+
+```{r}
+# par example créons des vecteurs de prix et marques de voiture
+
+prix.voiture <- c(5000, 5500, 7000, 13000, 12000, 14000, 15000)
+cout.voiture <-c(4000,6000, 6500, 10000, 9000, 11000, 10000)
+age.voiture <- c(6, 7 , 4, 3, 2, 1, 1)
+marque.voiture <-c("citroen","peugeot","fiat","bmw","citroen","audi",'bmw')
+
+# quelles sont les voitures coutant moins de 10000 ?
+prix.voiture < 10000
+
+# comme vous voyez, le résultat est un vecteur logique où R nous indique 
+# TRUE quand la valeur de l'élément est inférieur à 10000 et #FALSE quand 
+# la valeur est égale ou supérieure à 10000.
+
+# quelles sont les voitures de marque citroen? 
+marque.voiture == 'citroen'
+
+# quelles sont les voitures qui ne sont pas de marque citroen?
+marque.voiture != 'citroen'
+
+# vous pouvez aussi comparer deux vecteurs de la même longueur. R vas les 
+# comparer élément par élément  quelles sont les voitures que le cout 
+# de production est supérieure au prix?
+prix.voiture < cout.voiture
+
+# dès que vous avez un vecteur logique, vous pouvez l'utiliser 
+# pour extraire les valeurs du vecteur désiré.
+# quelles sont les voitures coutant moins de 10000 ?
+prix.voiture[prix.voiture < 10000]
+
+# Combiens coutent les voitures de moins de 4 ans?
+prix.voiture[age.voiture < 4]
+
+
+```
+
+### Opérateurs logiques
+
+Les conditions peuvent être complexifiées à l'aides des opérateurs logiques:
+
+* et  `r text_spec("&", background = '#E6E6E6')`
+* ou   `r text_spec("|", background = '#E6E6E6')`
+* n'est pas  `r text_spec("!", background = '#E6E6E6')`
+* est contenu dans `r text_spec("%in%", background = '#E6E6E6')` 
+
+\  
+
+```{r}
+# quelles sont les voitures qui coutent 5000 euros ou plus mais moins de 13000 euros?
+prix.voiture >= 5000 & prix.voiture < 13000
+
+# quelles sont les marques de ces voitures?
+marque.voiture[prix.voiture >= 5000 & prix.voiture < 13000]
+
+# quel est l'âge des voitures qui ne sont pas citroen et qui coutent plus de 10000 euors?
+age.voiture[marque.voiture != 'citroen' & prix.voiture > 10000]
+
+# et leurs marques?
+marque.voiture[marque.voiture != 'citroen' & prix.voiture > 10000]
+
+# vous pouvez combiner plusieurs opérateurs logiques
+
+# Indique moi quelles sont les voitures de marque citoren OU fiat qui 
+# coutent moins de 10000 ?
+(marque.voiture == 'citroen' | marque.voiture == 'fiat') & prix.voiture < 10000
+
+# quel sont les âges de ces voitures?
+age.voiture[(marque.voiture == 'citroen' | marque.voiture == 'fiat') & prix.voiture < 10000]
+
+# notez que j'ai mi le parenthèse autour de la condition sur les 
+# marques de voiture.Si je n'avais pas mi le parenthèse, R aurais 
+# interpretér la question comme "Indique moi les voitures de marque 
+# citroen (n'importe lesquelles) OU les voitures de marque
+# fiat qui content moins de 10000 euros?"
+
+# Indiquez moi les voitures de marque "citroen", "fiat" ou "peugeot"?
+marque.voiture == "citroen" | marque.voiture == 'fiat' | marque.voiture == 'peugeot'
+
+# C'est quand même long d'écrire toutes ces conditions. 
+# Une manière plus facile est d'utiliser l'opérateur "%in%"
+marque.voiture %in% c('citroen','fiat','peugeot')
+
+# R interprète ça comme "quels sont les éléments dans 
+# "marque voiture" qui sont aussi présent dans c("citroen","fiat","peugeot")
+```
+
+
+### Comptages et percentages de vecteurs logiques
+
+La plus part des fonctions de R vont interpréter  `r text_spec("TRUE", background = '#E6E6E6')` comme 1 et  `r text_spec("FALSE", background = '#E6E6E6')` comme 0. Ceci permet de répondre à des questions comme "combiens de voiture sont plus chers que 10000?" avec la fonction *sum()*. "Quel est le pourcentage de voitures avec un prix supérieure à 5000 ET inférieure à 12000?" avec la fonction *mean()*.
+
+```{r}
+# Combiens de voiture sont plus chers que 10000?
+sum(prix.voiture > 10000)
+
+# Quel est le pourcentage de voitures avec un prix supérieure à 5000 ET inférieure à 12000? 
+mean(prix.voiture > 5000 & prix.voiture < 12000)*100
+
+# Regardez le vecteur logique
+prix.voiture > 5000 & prix.voiture < 12000
+
+# R interprète le TRUE comme 1 et le FALSE comme 0, si vous transformez 
+# le vecteurs en une variable numérique
+as.numeric(prix.voiture > 5000 & prix.voiture < 12000)
+
+# Il y a 2 TRUE sur un total de 7 éléments
+(2/7) * 100
+```
+
+
+### Autres fonctions importantes pour l'indexation
+
+* *is.na()* 
+* *duplicated()*
+* *which()*
+* *is.finite()*
+* *which.min()*
+* *which.max()*
+
+```{r}
+vec <- c(5,NA ,3, NA, 20, NA, 2, 3, 5, 7, 8, NA)
+# Quelles sont les valeurs mancantes ? 
+is.na(vec)
+
+# Combiens il y a til de valeur mancantes?
+sum(is.na(vec))
+
+# Quelles sont les éléments dupliqués? 
+duplicated(vec)
+# notez que le premier élément qu'il rencontre reçois un FALSE et 
+# c'est seulement à partir du deuxième que cet élément va recevoir un
+# TRUE. Par exemple le premier 3 reçois un FALSE et le deuxième trois
+# reçois un TRUE les NA aussi reçoivent des TRUE à partir du deuxième NA
+
+# finalment la fonction which retournes tout les indexes des 
+# éléments qui satisfont une condition. Par exemple, dans vec 
+# les NA sont les éléments 2, 4, 6 et 12 Et c'est exactement ce que which retourne:
+which(is.na(vec))
+
+# si on veux savoir l'index des voitures citroens dans le vecteur marque.voitures
+which(marque.voiture == 'citroen')
+
+# is.finite() retourne toutes les valeurs qui ne sont pas NA, NaN, Inf, -Inf
+# Donc si on demande a which(), quels éléments 
+# qui sont fini il va nous répondre tout saut 2,4,6 et 12
+which(is.finite(vec))
+
+vec <- c (1,20, 4 ,5, 6 , 8 , 9, 0.5)
+# Où est la position de l'élément avec la valeur maximale?
+
+which.max(vec)
+vec[which.max(vec)]
+
+# Et la plus petite valeur?
+which.min(vec)
+vec[which.min(vec)]
+
+# Une autre façon de trouver la valeur maximale et minimale est en utilisant max() et min()
+min(vec)
+max(vec)
+
+#Et pour trouver ça position
+which(vec == min(vec))
+which(vec == max(vec))
+
+# En gros
+# which.min(vec) = which(vec == min(vec))
+# which.max(vec) = which(vec == max(vec))
+# min(vec) = vec[which.min(vec)]
+# max(vec) = vec[which.max(vec)]
+
+```
+### Indexation par comparaison avec matrices et data.frames
+
+```{r}
+# Pour les matrices et les data.frames c'est la même logique
+
+# combinez les vecteurs d'age, prix et cout des voitures
+mat.voiture <-cbind(age.voiture, cout.voiture, prix.voiture)
+mat.voiture
+
+colnames(mat.voiture) <-c("age","cout","prix")
+
+# indexez la matrice en séléctionnant seulement les voitures de 3 ans ou plus
+# L'âge des voiture est dans le première colonne, donc vous 
+# indexez en utilisant "mat.voiture[,1]"
+mat.voiture[mat.voiture[,1]>3,]
+
+# trouvez les voitures où le coût de production est égale à 10000 euros 
+# ET que le prix de vente est inférieure à 14000 euros?
+
+# ici c'est en utilisant le nombre de la colonne
+mat.voiture[mat.voiture[,2] == 10000 & mat.voiture[,3] < 14000,]
+
+# en utilisant le nom de la colonne
+mat.voiture[mat.voiture[,"cout"] == 10000 & mat.voiture[,"prix"] < 14000,]
+
+
+
+
+df.voiture <- data.frame(mat.voiture, marque = marque.voiture, stringsAsFactors = FALSE)
+
+# affichez toutes les propriétés des voitures citroens
+df.voiture[df.voiture$marque == "citroen",]
+
+# affichez toutes les propriétés des voitures citroens et bmw
+df.voiture[df.voiture$marque %in% c("citroen","bmw"),]
+
+# en utilisant la fonction subset
+# subset (df, subset = la condition, select = les colonnes désirées)
+subset(df.voiture, subset = marque %in% c("citroen","bmw"))
+
+# vous pouvez maintenant combiner ces fonctions pour calculer des stats
+# par exemple, quel est le prix moyene des voitures citroen et bmw dans la base de données?
+vec <- subset(df.voiture, subset = marque %in% c("citroen","bmw"), select = 'prix')
+
+mean(vec)
+# Pourquoi ca ne marche pas??
+class(vec)
+# Parce que la fonction subset retourne un data.frame (même si c'est juste un vecteur)
+# Pour acceder au vecteur dans le data frame, il faut utiliser le "$" 
+mean(vec$prix)
+
+
+#sinon vous pouvez le faire en une ligne en utilisant $
+
+mean(df.voiture$prix[df.voiture$marque %in% c("citroen","bmw")])
+
+```
+
+
+### Autres fonctions utiles
+
+* *with()*
+* *unique()*
+* *order()*
+* *table()*
+* *na.omit()*
+
+La fonction *with()* facilite les opérations avec plusieurs colonnes d'un data.frame.
+La fonction *unique()* retourne toute les valeurs uniques d'un vecteur.
+La fonction *order()* retourne des indices avec l'ordre croissantes des éléments. Ce vecteur d'indices peux-être utiliser pour changer l'ordre d'un vecteur, matrice ou data.frame.
+La fonction *table()* retourne un comptage du nombre de fois que chaque catégorie apparait dans un vecteur. Si il y a plusieurs vecteurs de catégorie, la fonction retourne un tableau de contigence avec le nombre d'élément dans chaque combination de catégories entre facteurs.
+La fonction *na.omit()* elimine toutes les valeurs mancantes. Dans un datatrame ou une matrice, elle élimine toutes les lignes contenant des valeurs mancantes.
+\  
+
+```{r}
+
+# Si vous voulez savoir combien est la marge dans une vente de voiture et après diviser le résultats par leurs age
+(df.voiture$prix - df.voiture$cout) /  df.voiture$age
+# la fonction with() vous permet de faire le même calcule avec moins d'écriture
+with(df.voiture, (prix - cout)/ age)
+
+# Combiens il y a t'il de marque de voiture?
+
+# Extraire les valeurs uniques du vecteur des "marques"
+marques <- unique(df.voiture$marque)
+# Calculer la longueur du vecteur 
+length(marques)
+
+# en une ligne 
+length(unique(df.voiture$marque))
+
+
+# Donnees-moi l'indice d'ordre croissante des couts des voitures
+idx_cout <- order(df.voiture$cout)
+df.voiture$cout
+idx_cout
+
+# Organiser le tableau données avec l'ordre des couts de voiture
+df.voiture[idx_cout,]
+
+# Par défault order mets un ordre croissante. Si vous voulez l'ordre décroissante
+df.voiture[order(df.voiture$cout, decreasing =TRUE),]
+
+# Si vous voulez organiser le tableau par plusieurs colonnes. Par exemple, organiser 
+# l'ordre des cout et ensuite reordonner par l'ordre des prix
+df.voiture[order(df.voiture$cout, df.voiture$prix),]
+# Il va donner toujours priorité à la première colonne
+```
+
+## Gestion du repertoire de travail et import/export des données
+
+### Répertoire de travail
+
+Pour vérifier quel est le "working directory" actuel, utilisez la fonction *getwd()*
+
+```{r}
+getwd()
+
+```
+
+Pour avoir la liste des fichiers dans le "working directory" actuel, utilisez la fonction *liste.files()*
+
+```{r}
+list.files()
+
+```
+
+Pour changer votre working directory, utilisez la fonction *setwd()* avec l'adresse du nouveau repertoire en format caractère 
+
+```{r}
+# Par exemple
+# setwd("D:/work/atelier/")
+
+``` 
+
+Une autre manière est de combiner la fonction *getwd* avec la fonction *paste()*.
+La fonction paste sers à concatener des chaines de caractères.
+
+```{r}
+paste('chien', 'et','chat')
+
+# Vous pouvez definir un séparateur entre les différents éléments
+paste('chien', 'et','chat', sep ='.')
+paste('chien', 'et','chat', sep ='+')
+paste('chien', 'et','chat', sep ='/')
+
+# Vous voyez où on s'en vas?
+
+# setwd(paste(getwd(),dir, sep = '/'))
+# Où "dir" seraos un sous-répertoire localisé à l'intérieur du répertoire de travail
+
+```
+
+
+### Imports de données
+
+La fonction de base pour importer vos données dans R est _read.table()_.
+Le format le plus générique et facilement acessible est le format **".txt"**. 
+
+```{r eval=FALSE}
+# Importons un fichier txt
+
+df <- read.table(file ='donnees_exemple.txt')
+```
+
+Il y a une erreur. Allez vérifier le fichier. les colonnes sont séparées par quoi? Par des " ; "
+Dans *read.table()* la valeur défault de l'argument de séparation `r text_spec("sep = ' '", background = '#E6E6E6')`. Donc ça ne peux pas fonctionner. Il faut changer l'argument sep pour qu'il identifie les ";": 
+
+```{r eval=FALSE}
+df <- read.table(file ='donnees_exemple.txt', sep=';')
+```
+
+Si votre fichier n'est pas dans le repertoire de travail, vous devez fournir le chemin absolu du fichier. 
+Vous pouvez également fournir un chemin sur le web pour télécharger vos données.
+
+```{r eval=FALSE}
+# par exemple: 
+df <- read.table(file ='https://raw.githubusercontent.com/RenatoHS/parallel_null_modelling/master/data/lake.comm.txt', sep=';')
+```
+
+
+Si vous voulez voir tout les argument qu'une fonction possède, 
+vous pouvez utilez la fonction *args()*:
+
+```{r}
+args(read.table)
+```
+
+Affichez les premières lignes du tableau avec *head()*:
+
+```{r eval=FALSE}
+head(df)
+```
+
+Affichez la structure du tableau avec la fonction *str()*:
+
+```{r eval=FALSE}
+str(df)
+```
+
+Est-ce que  vous voyez un problème? 
+Toutes les colonnes sont affichées comme des "facteurs". 
+Ceci viens du fait que la première ligne du fichier "donnees_exemple.txt" est une ligne d'entêtes. Par defaul la fonction assume qu'il n'y a pas de ligne d'entête. Pour changer ça il faut définir l'argument *header = TRUE*. Si vous voulez aussi que les colonnes de caractères ne soient pas considérées des facteurs, il faut définir l'argument *stringAsFactors = FALSE*
+
+```{r eval=FALSE}
+df <- read.table(file ='donnees_exemple.txt', sep=';', header= TRUE, stringsAsFactors = FALSE)
+
+# Vérifiez la structure de "df"
+str(df)
+# Maitenant chaque colonne a la classe apropriée aux types d'élément qu'elle contient
+```
+
+
+Si vous voulez importer des données '.csv. il faut utiliser la fonction *read.csv()* qui est exactement pareil à read.table() avec l'exeception que le défault de l'argument de séparation est `r text_spec("sep = ';'", background = '#E6E6E6')`.
+
+### Export de données
+
+Pour exporter vos données il y a plusieurs manières. La fonction pair de "read.table" est la fonction *write.table*
+
+```{r}
+
+# creez un sous-group de df avec seulement les lignes qui contiennent "Perca fluviatilis"
+# df2 <- subset(df, subset = sp_nom == "Perca fluviatilis")
+
+# Exportez df2 en .txt dans votre répertoire en spéficiant que le séparateur est une tabulation (\t)
+# write.table(df2, file ='donnes_perca.txt', sep ='\t')
+
+# Vérifiez votre nouveau fichier.
+
+```
+
+
+### Autres fonctions de gestion du répertoire de travail
+
+* *ls()* 
+* *rm()*
+
+La fonction *ls()* permet d'afficher tout les objets que vous aves dans votre environnement de travail sur R
+```{r}
+#ceci retourne un vecteur de caractère avec le nom de tous les objets de votre environnement de travail
+ls()
+```
+
+La fonction *rm()* permet de "remove" un ou plusieurs objets de  votre environnement de travail sur R
+```{r}
+# ceci éfface les objets "df" et "df2"
+# rm(df,df2)
+
+# si vous voulez tout effacer
+rm(list = ls())
+
+```
+
+# MODULE III
+
+## Les conditions If/Else
+
+Maintenant que vous savez comme utiliser les opérations de comparaison et les opérations logiques, vous pouvez les utilisés dans le cadre des conditions *if()* et *else()*. Ceci permet que vos scripts et fonctions ce comportement de manières différentes selon les objets qui traîtent. La structure générale d'une condition *if* est:
+
+### IF
+
+```{r, eval = FALSE}
+if(condition){
+  
+  CODE
+  
+}
+```
+
+Par exemple, si on veux que notre script imprime si une valeur est négative:
+```{r}
+x <- -3
+
+if(x < 0){
+  
+  print('x est un nombre négatif')  
+  
+}
+
+# si on change x 
+
+x <- 4
+if(x < 0){
+  
+  print('x est un nombre négatif')  
+  
+}
+
+
+# rien ne se passe
+
+
+```
+
+En gros, dès que la condition à l'interieure de *if()* est  `r text_spec("TRUE", background = '#E6E6E6')`, le code qui suis est éxécuté. Si la condition retourne un `r text_spec("FALSE", background = '#E6E6E6')`, le code qui suis n'est pas éxécuté. 
+
+### ELSE
+
+La  condition *else()* par contre ne peux pas être utilisé seule. Elle doit venir après une condition *if()*. Quand la condition dans if() n'est pas satisfaire, le script executera le code qui suis la condition *else()* . 
+
+Pour traduire en français:
+
+SI la variable vaut ça,
+ALORS fais ceci,
+SINON fais cela.
+
+Par exemple:
+```{r}
+x <- 4
+
+# si x est négatif
+if(x < 0){
+  # fais ceci
+  
+  print('x est un nombre négatif')  
+  
+  # sinon
+}else{ 
+  # fais cela
+  
+  print('x est un chiffre positif')
+}
+```
+
+### ELSE IF
+
+Enfin, R vous permet de créer multiple conditions avec la fonction *else if()*, qui doit être localisé entre *if()* et *else()*
+
+Par exemple dans notre script, qu'est-ce qui se passe si x = 0 ? Vous pouvez inclure cette condition avec *else if()*
+
+```{r}
+x <- 0
+
+
+if(x < 0){
+  
+  print('x est un nombre négatif')  
+  
+}else if(x == 0 ){ 
+  
+  print('x est égale à 0')
+  
+}else{
+  
+  print('x est un chiffre positif') 
+  
+}
+
+```
+
+
+## Boucles (for loop)
+
+Une des "règles d'or"" de la programmation est de jamais répéter une tâche. Vous pouvez la répéter mais c'est certainement une perte de temps. Un des outils de la programmation pour répéter des tâches est la boucle (*for loop* en anglais).
+
+La structure générale d'un loop est
+
+```{r, eval = FALSE}
+for(loop.iterateur in loop.objet){
+  
+  LOOP.CODE
+  
+}
+```
+
+Le *loop.iterateur* est la valeur qui va changer à chaque itération. Genéralement on le nomme de **i**, mais vous pouvez l'appeler de ce que vous voulez. L'itérateur est généralement utilisé dans le loop pour indexer un objet, et à chaque itération l'indexation changera.
+
+Le *loop.object* est l'objet sur lequelle l'itérateur va itérer. Généralement il prend la forme d'un vecteur construit avec *i:j*, *seq()*.
+
+### for loop sur un vecteur
+
+Par example
+
+```{r, eval = FALSE}
+chats.nom
+
+for(chats in chats.nom){
+  
+  print(chats)
+  
+}
+# si on veux avoir accès a l'index du loop pour indexerun autre objet, il faut le faire explicitement
+
+for(i in 1:length(chats.nom)){
+  
+  print(paste(chats.nom[i],"a besoin de", chats.sommeil[i], 'heures de sommeil pour survivre'))
+  
+}
+
+#R fait ceci
+
+for(i in 1:10){
+  
+  print(chats.nom[i])
+}
+```
+
+Vous pouvez utiliser les options **break** et **next** pour changer le fonctionnement de vos boucles à l'aide d'une condition IF.
+Le premier interrompt la boucle et le deuxième interromp l'iteration qui es en cours.
+
+```{r, eval = FALSE}
+# Par exemple, si on voudrais que le for loop s'arrète dès qui rencontre un nom de chat avec 4 caractères
+# On utilise la fonction nchar() pour conter le nombre de caractère dans un string
+# Il devrait s'arreter dès qui rencontre le nom "MAYA" qui est avant "PATOUNE"
+for(chats in chats.nom){
+  
+  if(nchar(chats)== 4){
+    break
+  }
+  
+  print(chats)
+  
+}
+# Ici il ignore le reste du code dans la boucle quand il exectute "next" et il passe à la prochaine itération.
+# Si notre code marche, il ne doit pas imprimer les noms "MAYA" et "LUNA"
+for(chats in chats.nom){
+  
+  if(nchar(chats)== 4){
+    next
+  }
+  
+  print(chats)
+  
+}
+```
+
+### for loop sur une liste
+
+Si vous utiliser la sintaxe de for loop direct sur les listes, la boucle va considérer chaque compartiment comme un élément à iterer.
+
+```{r}
+# version direct sans obtenir l'index
+list.chats <- list(chats.nom, chats.poids, chats.age, chats.race, chats.sexe, chats.sommeil)
+
+for (chat in list.chats){
+  
+  print(chat)
+  
+}
+
+# version avec obtention de l'index du loop
+for(ch in 1:length(list.chats)){
+  
+  print(list.chats[[ch]])
+  
+  
+}
+
+
+
+```
+
+### for loop sur une matrice et data.frame
+
+Si vous utiliser la sintaxe de for loop direct sur les matrices et data.frames, la boucle va considérer chaque colonne comme un élément à iterer.
+
+
+```{r}
+# Supposez que les chats dorment le même nombre d'heures par jour tout les jours. 
+# On va créer un loop pour calculer combiens d'heures ils ont dormi toute leur vie.
+# PS: on peux faire cela sans un loop, mais juste pour une démonstration.
+
+# Vu que vous voulez obtenier une donné par chat, vous devez tourner la boucle
+# à travers les lignes. Donc vous devez utiliser la sintaxe qui vous fourni un index.
+
+
+for(i in 1:nrow(mat.chats)){
+  
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil <- n_jours * mat.chats[i,"sommeil"]
+  
+  
+}
+n_heures_sommeil
+
+```
+Est-ce qu'il a un problème dans ce loop?
+Oui, le résultat "n_heures_sommeil" est écrasé à chaque itération et à la fin du loop on a seulement le résultat du dernier chat.
+Comment résoudre ce problème? 
+Une façon:
+\  
+```{r}
+# Créez un objet vide
+n_heures_sommeil<-NULL
+for(i in 1:nrow(mat.chats)){
+  
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil <- c(n_heures_sommeil, n_jours * mat.chats[i,"sommeil"])
+}
+n_heures_sommeil
+```
+Cette façon n'est pas optimale parce que a chaque itération, n_heures_sommeil change de taille. Quand un objet change de taille il deviens un nouveau objet. Ceci fait que à chaque fois que l'objet change, R demande a l'ordinateur de le stocker dans la mémoire.
+Ceci ralenti l'execution du code énormement.
+
+Une autre fácon est de créer un objet qui à la taille atendu du résultat final. On appelle cette procédure d'allocation. Comme vous savez combiens de chat il y a, vous savez quel sera la taille du vecteur de résultats. Vous pouvez utiliser le nombre de chats pour définir la longueur de "n_heures_sommeil". 
+\ 
+```{r}
+# Cette fois-si il faut utiliser NA et pas NULL parce que NULL n'occupe pas d'espace
+n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+for(i in 1:nrow(mat.chats)){
+  
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil[i] <-  n_jours * mat.chats[i,"sommeil"]
+}
+n_heures_sommeil
+
+```
+
+vous pouvez mélanger un for loop avec des conditions if. 
+Imaginez que vous voulez les heures de sommeils seulement des chats siamois et persans
+
+```{r}
+n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+for(i in 1:nrow(mat.chats)){
+  
+  if(chats.race[i] %in% c('Siamois','Persan')){
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil[i,1] <-  n_jours * mat.chats[i,"sommeil"]
+  }
+  
+}
+n_heures_sommeil
+
+```
+
+## Fonctions
+
+Les fonctions sont utilisée partout dans R. Elle fonctionnent comme une "black box" où on rentre un input (entrée de données) dans la fonction, elle performe son calcul sur ce input et ensuite nous retourne un output (un résultat sortant). 
+Par exemple la fonction *sd()* calcule l'écart-type des éléments d'un vecteur.
+
+```{r}
+# Quel est l'écart-type de "1, 4, 7 et 9"
+sd(c (1, 4, 7, 9))
+
+# Vous pouvez affecter ce vecteur à "chiffres"
+chiffres <- c (1, 4, 7, 9)
+# et ensuite faire
+sd(chiffres)
+
+# vous pouvez affecter le output de sd() aussi
+sd_x <- sd(chiffres)
+sd_x
+```
+
+Chaque fonction a ça propre documentation qui est accessible en utilisant une autre fonction, la fonction *help()*.
+Une autre façon est de mettre un **?** devans la fonction qu'on voudrais acceder la documentation.
+
+```{r}
+
+help(sd)
+
+?sd
+
+
+```
+
+On observe que la fonction *sd()* viens avec deux argument de "input", x et na.rm = FALSE. 
+Comment ça se fait t'il qu'elle fonctionne quand on inclus seuleument un argument? Ce qui se passe c'est que l'argument "na.rm" viens déjà avec une valeur défault ( = FALSE). Cet argument indique si l'utilisateur veux que la fonction *sd()* élimine les valeurs mancantes pour calculer l'écart-type. Donc si l'utilisateur n'inclus pas de valeur pour na.rm, la fonction adopte une valeur FALSE par défault, et la fonction est éxécutée.
+\  
+Par contre si l'utilisateur ne spécifie pas "x", R retourne une erreur.
+\  
+```{r}
+
+sd()
+
+```
+
+R reconnais chaque argument par ça position dans la fonction. C'est pour ça qu'on a pas besoin de mettre comme input un x. La fonction va considérer automatiquement n'importe quel objet qu'on met dans la première position dans la fonction comme "x". 
+Donc si vous invertez les leurs de x est de na.rm il y aura une erreur
+```{r}
+sd(TRUE,chiffres)
+
+```
+
+Donc la position des arguments est importante.
+
+```{r}
+# Incluez des valeurs mancantes dans "chiffres"
+chiffres <- c( chiffres, NA, NA)
+chiffres
+
+# Maintenant, si on ne spécifie pas na.rm, il ne vas pas éliminer les valeurs mancantes parce que le défault est FALSE
+sd(chiffres)
+# Et le résultats est une valeur mancante.
+
+# Changez na.rm pour TRUE
+sd(chiffres,TRUE)
+# Bingo, vous obtenez l'écart-type
+```
+Une autre façon de spéficier les arguments dans la fonction est de les nommés explicitement. Si vous faites ceci, vous pouvez utiliser l'ordre que vous désiré pour les arguments.
+```{r}
+sd(na.rm=TRUE,x = chiffres)
+
+```
+
+À retenir
+
+* Les fonction de R: input --> blackbox --> output
+* Les arguments des fonctions peuvent être spécifié par **position** ou par **nom**
+* Quelques arguments des fonctions R ont déjá une option/valeur défault qui est reconnaisable par le "=".
+* D'autres arguments n'ont pas d'option de défault, est la fonction retourne une erreur si ceux-ci ne sont pas spécifié.
+

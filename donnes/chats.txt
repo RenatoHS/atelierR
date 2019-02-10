@@ -1,0 +1,5 @@
+chats.nom <-c("Fluffy","Billy","Minette","Patoune","Maya","Pilou","Luna", "Pacha","Minou","Gribouille")
+chats.sexe <-c("F", "M", "F", "F", "F", "M", "F", "M", "M", "M")
+chats.poids <- c(3.82,3.55,3.6,4,3.66,4.03,3.76,3.52,3.91,3.48)
+chats.age <-c(10,9,8,2,5,15,4,1,6,13)
+chats.sommeil <-c(12,13,15,14,15,18,15,16,16,18)
