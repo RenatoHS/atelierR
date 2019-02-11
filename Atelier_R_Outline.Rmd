@@ -82,8 +82,8 @@ Montrer comment ajouter des noms aux matrices -> *rownames()* , *colnames()*
 Montrer aussi dans la fonction *matrix()* 
 
 
-````{r}
-#matrix(numeric(), nrow = i, ncol = j, dimnames = list(c("rownmaes"),c("colnames")))
+````{r, eval = FALSE}
+matrix(numeric(), nrow = i, ncol = j, dimnames = list(c("rownmaes"),c("colnames")))
 ```
 Montrer commenr vérifier les dimensions d'une matrice  *dim()*
 
@@ -149,64 +149,66 @@ L'indexation des différents objets ce fait de la manière suivante:
 * list -->  `r text_spec("lis[[i]]", background = '#E6E6E6')`
 
 ### Indexation des vecteurs
-```{r}
-#vec[1]
+```{r, eval = FALSE}
+vec[1]
 
-#vec[i:j]
+vec[i:j]
 
-#vec[length(vec)]
+vec[length(vec)]
 
-#vec[c(3,4,5)]
+vec[c(3,4,5)]
 ```
 ### Indexation des matrices
-```{r}
-#mat[9] <- ici il faut bien préciser que on peux aller chercher élément par élément (et que R cherche en suivant les colonnes) 
+```{r, eval = FALSE}
+mat[9] 
+# ici il faut bien préciser que on peux aller 
+# chercher élément par élément (et que R cherche en suivant les colonnes) 
 
 # ATTENTION, l'operation en haut ne marche pas sur les data.frames
 
-#mat[1,2] 
+mat[1,2] 
 
-#mat[3,]
+mat[3,]
 
-#mat[3:4,1:2]
+mat[3:4,1:2]
 
-#mat[,ncol(mat)]
+mat[,ncol(mat)]
 
-#mat[,"Octobre"]
+mat[,"Octobre"]
 ```
 
 ### Indexation des data frames
-```{r}
-#df[1,2]
+```{r, eval = FALSE}
+df[1,2]
 
-#df[c(1,2),4]
+df[c(1,2),4]
 
-#df[5,"taille"]
+df[5,"taille"]
 
-#df$espece[3] 
+df$espece[3]
 ```
 
 ### Indexation des listes
-```{r}
-#liste_b[[1]]
+```{r, eval = FALSE}
+liste_b[[1]]
 
-#liste_b[[3]][,1]
+liste_b[[3]][,1]
 
-#liste_b[[3]][,"espece"]
+liste_b[[3]][,"espece"]
 
-#liste_b$camp_peche
+liste_b$camp_peche
 
-#liste_b$camp_peche$espece
+liste_b$camp_peche$espece
 ```
 ## Indexation par condition
 
-```{r echo=FALSE, out.width = '100%'}
-knitr::include_graphics("logical_indexing.png")
+```{r echo=FALSE, out.width = '50%'}
+knitr::include_graphics(paste(getwd(), "fig/logical_indexing.png", sep ='/'))
 ```
 
 
 Montrer une operation en créant à la main un vecteur logique
-```{r}
+```{r, eval = FALSE}
 #vec <- c(1,2,3,4,5)
 
 #vec[c(TRUE,FALSE,TRUE,FALSE,FALSE)]
@@ -221,20 +223,20 @@ Montrer une operation en créant à la main un vecteur logique
 * inférieure ou égale à:  `r text_spec("<=", background = '#E6E6E6')` 
 
 Montrer les operations de comparaision avec les vecteurs de voitures
-```{r}
-# chats.nom <-c("Fluffy","Billy","Minette","Patoune","Maya","Pilou","Luna", "Pacha","Minou","Gribouille")
-# chats.sexe <-c("F", "M", "F", "F", "F", "M", "F", "M", "M", "M")
-# chats.poids <- c(3.82,3.55,5.6,4,3.66,4.03,3.76,3.52,3.91,6.48)
-# chats.age <-c(10,4,3,2,11,1,8,9,7,6)
-# chats.sommeil <-c(18,13,12,13,18,14,15,17,17,18)
-# chats.race <-c("Persan","Siamois","Main Coon","Goutière","Siamois","Goutière","Angora","Persan","Persan","Main Coon")
-# 
-# 
-# chats.sommeil < 15
-# chats.sexe == 'F'
-# chats.sexe != 'F'
-# chats.age[chats.age < 7]
-# chats.sommeil[chats.age >= 8]
+```{r, eval = FALSE}
+chats.nom <-c("Fluffy","Billy","Minette","Patoune","Maya","Pilou","Luna", "Pacha","Minou","Gribouille")
+chats.sexe <-c("F", "M", "F", "F", "F", "M", "F", "M", "M", "M")
+chats.poids <- c(3.82,3.55,5.6,4,3.66,4.03,3.76,3.52,3.91,6.48)
+chats.age <-c(10,4,3,2,11,1,8,9,7,6)
+chats.sommeil <-c(18,13,12,13,18,14,15,17,17,18)
+chats.race <-c("Persan","Siamois","Main Coon","Goutière","Siamois","Goutière","Angora","Persan","Persan","Main Coon")
+
+
+chats.sommeil < 15
+chats.sexe == 'F'
+chats.sexe != 'F'
+chats.age[chats.age < 7]
+chats.sommeil[chats.age >= 8]
 
 ```
 
@@ -246,37 +248,37 @@ Montrer les operations de comparaision avec les vecteurs de voitures
 * est contenu dans `r text_spec("%in%", background = '#E6E6E6')` 
 
 
-```{r}
+```{r, eval = FALSE}
 
-# chats.poids >= 3.6 & chats.poids < 4
-# 
-# chats.poids[chats.poids >= 3.6 & chats.poids < 4]
-# 
-# chats.sommeil[chats.sexe != 'M' & chats.poids < 4]
-# 
-# chats.nom[chats.sexe != 'M' & chats.poids < 4]
-# 
-# (chats.race == 'Siamois' | chats.race == 'Persan') & chats.age > 7
-# 
-# chats.nom[(chats.race == 'Siamois' | chats.race == 'Persan') & chats.age > 7]
-# 
-# chats.race == "Goutière" | chats.race == 'Main Coon' | chats.race == 'Angora'
-# 
-# chats.race %in% c('Goutière','Main Coon','Angora')
+chats.poids >= 3.6 & chats.poids < 4
+
+chats.poids[chats.poids >= 3.6 & chats.poids < 4]
+
+chats.sommeil[chats.sexe != 'M' & chats.poids < 4]
+
+chats.nom[chats.sexe != 'M' & chats.poids < 4]
+
+(chats.race == 'Siamois' | chats.race == 'Persan') & chats.age > 7
+
+chats.nom[(chats.race == 'Siamois' | chats.race == 'Persan') & chats.age > 7]
+
+chats.race == "Goutière" | chats.race == 'Main Coon' | chats.race == 'Angora'
+
+chats.race %in% c('Goutière','Main Coon','Angora')
 
 ```
 
 ### Comptages et percentages de vecteurs logiques
-```{r}
+```{r, eval = FALSE}
 
-# sum(chats.age >= 8)
+sum(chats.age >= 8)
 
-# mean(chats.sommeil > 12 &  chats.sommeil < 15)*100
+ mean(chats.sommeil > 12 &  chats.sommeil < 15)*100
 
-# chats.sommeil > 12 &  chats.sommeil < 15
+ chats.sommeil > 12 &  chats.sommeil < 15
 
 # R interprète le TRUE comme 1 et le FALSE comme 0, si vous transformez le vecteurs en une variable numérique
-# as.numeric(chats.sommeil > 12 &  chats.sommeil < 15)
+ as.numeric(chats.sommeil > 12 &  chats.sommeil < 15)
 
 # Il y a 3 TRUE sur un total de 10 éléments
 (3/10) * 100
@@ -295,69 +297,69 @@ Montrer les operations de comparaision avec les vecteurs de voitures
 * which.max()
 
 
-```{r}
+```{r, eval = FALSE}
 
-# vec <- c(5,NA ,3, NA, 20, NA, 2, 3, 5, 7, 8, NA)
-# is.na(vec)
-# 
-# sum(is.na(vec))
-# 
-# duplicated(vec)
-# 
-# which(is.na(vec))
-# 
-# which(chats.race == 'Persan')
-# 
-# which(is.finite(vec))
-# 
-# vec <- c (1,20, 4 ,5, 6 , 8 , 9, 0.5)
-# 
-# which.max(vec)
-# vec[which.max(vec)]
-# 
-# which.min(vec)
-# vec[which.min(vec)]
-# 
-# min(vec)
-# max(vec)
-# 
-# which(vec == min(vec))
-# which(vec == max(vec))
+vec <- c(5,NA ,3, NA, 20, NA, 2, 3, 5, 7, 8, NA)
+is.na(vec)
+
+sum(is.na(vec))
+
+duplicated(vec)
+
+which(is.na(vec))
+
+which(chats.race == 'Persan')
+
+which(is.finite(vec))
+
+vec <- c (1,20, 4 ,5, 6 , 8 , 9, 0.5)
+
+which.max(vec)
+vec[which.max(vec)]
+
+which.min(vec)
+vec[which.min(vec)]
+
+min(vec)
+max(vec)
+
+which(vec == min(vec))
+which(vec == max(vec))
 
 ```
 
 ### Indexation par comparaison avec matrices et data.frames
 
-```{r}
+```{r, eval = FALSE}
 
-# mat.chats <-cbind(chats.age, chats.poids, chats.sommeil)
-# mat.chats
-# colnames(mat.chats)<- c("age","poids","sommeil")
-# mat.chats[mat.chats[,1]<5,]
-# 
-# mat.chats[mat.chats[,1] < 10 & mat.chats[,3] == 18,]
-# 
-# mat.chats[mat.chats[,"age"] < 10 & mat.chats[,"sommeil"] == 18,]
-# 
-# 
-# df.chats <- data.frame(nom = chats.nom, sexe = chats.sexe, race =chats.race, mat.chats, stringsAsFactors = FALSE)
-# df.voiture
-# 
-# df.chats[df.chats$race == "Persan",]
-# 
-# 
-# df.chats[df.chats$race %in% c("Persan","Goutière"),]
-# subset(df.chats, subset = race %in% c("Persan","Goutière"))
-# # le resultat est un vecter data.frame
-# 
-# df2 <- subset(df.chats, subset = race %in% c("Persan","Goutière"), select = 'sommeil')
+mat.chats <-cbind(chats.age, chats.poids, chats.sommeil)
+mat.chats
+colnames(mat.chats)<- c("age","poids","sommeil")
+mat.chats[mat.chats[,1]<5,]
 
-# mean(df2)
-# Pourquoi ca ne marche pas??
-# class(df2)
-# Parce que la fonction subset retourne un data.frame (même si c'est juste un vecteur)
-# Pour acceder au vecteur dans le data frame, il faut utiliser le "$" 
-# mean(df2$sommeil)
+mat.chats[mat.chats[,1] < 10 & mat.chats[,3] == 18,]
+
+mat.chats[mat.chats[,"age"] < 10 & mat.chats[,"sommeil"] == 18,]
+
+
+df.chats <- data.frame(nom = chats.nom, sexe = chats.sexe, race =chats.race, mat.chats, stringsAsFactors = FALSE)
+df.voiture
+
+df.chats[df.chats$race == "Persan",]
+
+
+df.chats[df.chats$race %in% c("Persan","Goutière"),]
+subset(df.chats, subset = race %in% c("Persan","Goutière"))
+# le resultat est un vecter data.frame
+
+df2 <- subset(df.chats, subset = race %in% c("Persan","Goutière"), select = 'sommeil')
+
+mean(df2)
+#Pourquoi ca ne marche pas??
+class(df2)
+#Parce que la fonction subset retourne un data.frame (même si c'est juste un vecteur)
+# Pour acceder au vecteur dans le data frame, il faut utiliser le "$"
+mean(df2$sommeil)
 
 ```
 
@@ -368,7 +370,7 @@ Montrer les operations de comparaision avec les vecteurs de voitures
 * *order()*
 * *table()*
 
-```{r}
+```{r, eval = FALSE}
 
 # Extraire les valeurs uniques du vecteur des "race"
 races <- unique(df.chats$race)
@@ -575,7 +577,238 @@ if(df.chats$race[x] == "Persan"){
   }
 }
 
-
-
-  
 ```
+
+## Boucles 
+
+structure générale
+
+```{r, eval = FALSE}
+for(iterateur in objet){
+  
+ CODE
+  
+}
+```
+
+```{r, eval = FALSE}
+chats.nom
+
+for(chats in chats.nom){
+  
+  print(chats)
+  
+}
+# si on veux avoir accès a l'index du loop pour indexer un autre objet, il faut le faire explicitement
+
+for(i in 1:length(chats.nom)){
+  
+  print(paste(chats.nom[i],"a besoin de", chats.sommeil[i], 'heures de sommeil pour survivre'))
+  
+}
+
+#R fait ceci
+
+for(i in 1:10){
+  
+  print(chats.nom[i])
+}
+```
+
+### Break et Next
+
+```{r, eval = FALSE}
+# Par exemple, si on voudrais que le for loop s'arrète dès qui rencontre un nom de chat avec 4 caractères
+# On utilise la fonction nchar() pour conter le nombre de caractère dans un string
+# Il devrait s'arreter dès qui rencontre le nom "MAYA" qui est avant "PATOUNE"
+for(chats in chats.nom){
+  
+  if(nchar(chats)== 4){
+    break
+  }
+  
+  print(chats)
+  
+}
+# Ici il ignore le reste du code dans la boucle quand il exectute "next" et il passe à la prochaine itération.
+# Si notre code marche, il ne doit pas imprimer les noms "MAYA" et "LUNA"
+for(chats in chats.nom){
+  
+  if(nchar(chats)== 4){
+    next
+  }
+  
+  print(chats)
+  
+}
+```
+
+
+### For loop sur une liste
+
+```{r, eval = FALSE}
+# version direct sans obtenir l'index
+list.chats <- list(chats.nom, chats.poids, chats.age, chats.race, chats.sexe, chats.sommeil)
+
+for (chat in list.chats){
+  
+  print(chat)
+  
+}
+
+# version avec obtention de l'index du loop
+for(ch in 1:length(list.chats)){
+  
+  print(list.chats[[ch]])
+  
+  
+}
+
+```
+
+### for loop sur une matrice et data.frame
+
+```{r, eval = FALSE}
+# Supposez que les chats dorment le même nombre d'heures par jour tout les jours. 
+# On va créer un loop pour calculer combiens d'heures ils ont dormi toute leur vie.
+
+for(i in 1:nrow(mat.chats)){
+  
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil <- n_jours * mat.chats[i,"sommeil"]
+  
+  
+}
+n_heures_sommeil
+
+```
+Est-ce qu'il a un problème dans ce loop?
+\  
+```{r, eval = FALSE}
+# Créez un objet vide
+n_heures_sommeil<-NULL
+for(i in 1:nrow(mat.chats)){
+  
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil <- c(n_heures_sommeil, n_jours * mat.chats[i,"sommeil"])
+}
+n_heures_sommeil
+```
+
+PAS OPTIMALE --> allocation du vecteur
+
+\ 
+```{r, eval = FALSE}
+# Cette fois-si il faut utiliser NA et pas NULL parce que NULL n'occupe pas d'espace
+n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+for(i in 1:nrow(mat.chats)){
+  
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil[i] <-  n_jours * mat.chats[i,"sommeil"]
+}
+n_heures_sommeil
+
+```
+
+MIX LOOP ET CONDITIONS IF
+
+```{r, eval = FALSE}
+n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+for(i in 1:nrow(mat.chats)){
+  
+  if(chats.race[i] %in% c('Siamois','Persan')){
+  # calculez le nombre de jours qui a vécu un chat 
+  # Assumez que toutes les années on 365 jours
+  n_jours <- mat.chats[i,"age"]*365
+  
+  n_heures_sommeil[i,1] <-  n_jours * mat.chats[i,"sommeil"]
+  }
+  
+}
+n_heures_sommeil
+
+```
+
+## Fonctions
+
+INPUT -> BLACK BOX -> OUTPUT
+
+Parler de la fonction SD
+
+```{r, eval = FALSE}
+# Quel est l'écart-type de "1, 4, 7 et 9"
+sd(c (1, 4, 7, 9))
+
+# Vous pouvez affecter ce vecteur à "chiffres"
+chiffres <- c (1, 4, 7, 9)
+# et ensuite faire
+sd(chiffres)
+
+# vous pouvez affecter le output de sd() aussi
+sd_x <- sd(chiffres)
+sd_x
+```
+
+```{r, eval = FALSE}
+
+help(sd)
+
+?sd
+
+```
+
+PARLER DES DEUX ARGUMENTS, UN OPTIONALE ET L'AUTRE OBLIGATOIRE 
+
+```{r, eval = FALSE}
+
+sd()
+
+```
+
+MONTRER QUE LA POSITION EST IMPORTANTE
+
+```{r, eval = FALSE}
+sd(TRUE,chiffres)
+
+```
+
+```{r, eval = FALSE}
+# Incluez des valeurs mancantes dans "chiffres"
+chiffres <- c( chiffres, NA, NA)
+chiffres
+
+# Maintenant, si on ne spécifie pas na.rm, il ne vas pas éliminer les valeurs mancantes parce que le défault est FALSE
+sd(chiffres)
+# Et le résultats est une valeur mancante.
+
+# Changez na.rm pour TRUE
+sd(chiffres,TRUE)
+# Bingo, vous obtenez l'écart-type
+```
+
+MONTRER QU'EN NOMMANT LES ARGUMENT LA POSITION N'EST PLUS IMPORTANTE
+
+```{r, eval = FALSE}
+sd(na.rm=TRUE,x = chiffres)
+
+```
+
+À retenir
+
+* Les fonction de R: input --> blackbox --> output
+* Les arguments des fonctions peuvent être spécifié par **position** ou par **nom**
+* Quelques arguments des fonctions R ont déjá une option/valeur défault qui est reconnaisable par le "=".
+* D'autres arguments n'ont pas d'option de défault, est la fonction retourne une erreur si ceux-ci ne sont pas spécifié.
+
+
+
+

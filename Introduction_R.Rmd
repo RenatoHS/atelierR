@@ -826,39 +826,43 @@ Voici la liste des opérateurs de comparaison pour obtenir un vecteur logique:
 * inférieure ou égale à:  `r text_spec("<=", background = '#E6E6E6')` 
 
 ```{r}
-# par example créons des vecteurs de prix et marques de voiture
+# par example créons des vecteurs de characteristics de chats
 
-prix.voiture <- c(5000, 5500, 7000, 13000, 12000, 14000, 15000)
-cout.voiture <-c(4000,6000, 6500, 10000, 9000, 11000, 10000)
-age.voiture <- c(6, 7 , 4, 3, 2, 1, 1)
-marque.voiture <-c("citroen","peugeot","fiat","bmw","citroen","audi",'bmw')
+chats.nom <-c("Fluffy","Billy","Minette","Patoune","Maya","Pilou","Luna", "Pacha","Minou","Gribouille")
+chats.sexe <-c("F", "M", "F", "F", "F", "M", "F", "M", "M", "M")
+chats.poid <- c(3.82,3.55,5.6,4,3.66,4.03,3.76,3.52,3.91,6.48)
+chats.age <-c(10,4,3,2,11,1,8,9,7,6)
+chats.sommeil <-c(18,13,12,13,18,14,15,17,17,18)
+chats.race <-c("Persan","Siamois","Main Coon","Goutière","Siamois","Goutière","Angora","Persan","Persan","Main Coon")
 
-# quelles sont les voitures coutant moins de 10000 ?
-prix.voiture < 10000
+# quels sont les chats qui dorment moins de 15h par jour ?
+chats.sommeil < 15
 
 # comme vous voyez, le résultat est un vecteur logique où R nous indique 
-# TRUE quand la valeur de l'élément est inférieur à 10000 et #FALSE quand 
-# la valeur est égale ou supérieure à 10000.
+# TRUE quand la valeur de l'élément est inférieur à 15 et #FALSE quand 
+# la valeur est égale ou supérieure à 15.
 
-# quelles sont les voitures de marque citroen? 
-marque.voiture == 'citroen'
+# quels sont les chats femelles? 
+chats.sexe == 'F'
 
-# quelles sont les voitures qui ne sont pas de marque citroen?
-marque.voiture != 'citroen'
+# quels sont les chats qui ne sont pas femelles?
+chats.sexe != 'F'
 
 # vous pouvez aussi comparer deux vecteurs de la même longueur. R vas les 
-# comparer élément par élément  quelles sont les voitures que le cout 
-# de production est supérieure au prix?
-prix.voiture < cout.voiture
+# comparer élément par élément.
+# Par example, vous avez un vecteur des poids des chats à  t2. 
+chats.poid.t2 <- c( 4.515, 3.305, 5.590, 3.890, 2.650, 3.135, 2.935, 3.085, 4.265, 6.920)
+# Quels chats ont grossi entre t1 et t2?
+chats.poid.t2 > chats.poid
 
 # dès que vous avez un vecteur logique, vous pouvez l'utiliser 
 # pour extraire les valeurs du vecteur désiré.
-# quelles sont les voitures coutant moins de 10000 ?
-prix.voiture[prix.voiture < 10000]
+# Quel est l'âge des chats qui ont moins de 7 ans?
+chats.age[chats.age < 7]
 
-# Combiens coutent les voitures de moins de 4 ans?
-prix.voiture[age.voiture < 4]
-
+# Ou sinon vous pouvez utiliser un vecteur logique construit avec un vecteur pour extraire des information dans autre vecteur
+# Combiens d'heures dorment les chats qui ont 8 ans ou plus?
+chats.sommeil[chats.age >= 8]
 
 ```
 
@@ -874,42 +878,41 @@ Les conditions peuvent être complexifiées à l'aides des opérateurs logiques:
 \  
 
 ```{r}
-# quelles sont les voitures qui coutent 5000 euros ou plus mais moins de 13000 euros?
-prix.voiture >= 5000 & prix.voiture < 13000
+# quels sont les chats qui pèsent 3.6kg et plus mains moins de 4kg?
+chats.poid >= 3.6 & chats.poid < 4
 
-# quelles sont les marques de ces voitures?
-marque.voiture[prix.voiture >= 5000 & prix.voiture < 13000]
+# quels sont les noms de ces chats?
+chats.nom[chats.poid >= 3.6 & chats.poid < 4]
 
-# quel est l'âge des voitures qui ne sont pas citroen et qui coutent plus de 10000 euors?
-age.voiture[marque.voiture != 'citroen' & prix.voiture > 10000]
+# Combiens d'heures dorment les chats mâle qui pèsent moins de 4kg ?
+chats.sommeil[chats.sexe != 'M' & chats.poid < 4]
 
-# et leurs marques?
-marque.voiture[marque.voiture != 'citroen' & prix.voiture > 10000]
+# et c'est quoi leurs noms?
+chats.nom[chats.sexe != 'M' & chats.poid < 4]
 
 # vous pouvez combiner plusieurs opérateurs logiques
 
-# Indique moi quelles sont les voitures de marque citoren OU fiat qui 
-# coutent moins de 10000 ?
-(marque.voiture == 'citroen' | marque.voiture == 'fiat') & prix.voiture < 10000
+# Indiquez les chats de race Siamois ou Persan qui 
+# ont plus de 7 ans?
+(chats.race == 'Siamois' | chats.race == 'Persan') & chats.age > 7
 
-# quel sont les âges de ces voitures?
-age.voiture[(marque.voiture == 'citroen' | marque.voiture == 'fiat') & prix.voiture < 10000]
+# Comment ils s'appellent?
+chats.nom[(chats.race == 'Siamois' | chats.race == 'Persan') & chats.age > 7]
 
 # notez que j'ai mi le parenthèse autour de la condition sur les 
 # marques de voiture.Si je n'avais pas mi le parenthèse, R aurais 
-# interpretér la question comme "Indique moi les voitures de marque 
-# citroen (n'importe lesquelles) OU les voitures de marque
-# fiat qui content moins de 10000 euros?"
+# interpretér la question comme "Indiquez moi les chats Siamos (tous) et
+# seulement les chats Persans qui ont moins de 7 ans.
 
-# Indiquez moi les voitures de marque "citroen", "fiat" ou "peugeot"?
-marque.voiture == "citroen" | marque.voiture == 'fiat' | marque.voiture == 'peugeot'
+# Indiquez moi les chats de race "Main Coon", "Angora" et les chats sans race ("Goutière")
+chats.race == "Goutière" | chats.race == 'Main Coon' | chats.race == 'Angora'
 
 # C'est quand même long d'écrire toutes ces conditions. 
 # Une manière plus facile est d'utiliser l'opérateur "%in%"
-marque.voiture %in% c('citroen','fiat','peugeot')
+chats.race %in% c('Goutière','Main Coon','Angora')
 
 # R interprète ça comme "quels sont les éléments dans 
-# "marque voiture" qui sont aussi présent dans c("citroen","fiat","peugeot")
+# "chats.race" qui sont aussi présent dans c('Goutière','Main Coon','Angora')
 ```
 
 
@@ -918,21 +921,21 @@ marque.voiture %in% c('citroen','fiat','peugeot')
 La plus part des fonctions de R vont interpréter  `r text_spec("TRUE", background = '#E6E6E6')` comme 1 et  `r text_spec("FALSE", background = '#E6E6E6')` comme 0. Ceci permet de répondre à des questions comme "combiens de voiture sont plus chers que 10000?" avec la fonction *sum()*. "Quel est le pourcentage de voitures avec un prix supérieure à 5000 ET inférieure à 12000?" avec la fonction *mean()*.
 
 ```{r}
-# Combiens de voiture sont plus chers que 10000?
-sum(prix.voiture > 10000)
+# Combiens de chats ont plus de 8 ans?
+sum(chats.age >= 8)
 
-# Quel est le pourcentage de voitures avec un prix supérieure à 5000 ET inférieure à 12000? 
-mean(prix.voiture > 5000 & prix.voiture < 12000)*100
+# Quel est le pourcentage de chats qui dorment entre 12h et 15h ?
+mean(chats.sommeil > 12 &  chats.sommeil < 15)*100
 
 # Regardez le vecteur logique
-prix.voiture > 5000 & prix.voiture < 12000
+chats.sommeil > 12 &  chats.sommeil < 15
 
 # R interprète le TRUE comme 1 et le FALSE comme 0, si vous transformez 
 # le vecteurs en une variable numérique
-as.numeric(prix.voiture > 5000 & prix.voiture < 12000)
+as.numeric(chats.sommeil > 12 &  chats.sommeil < 15)
 
-# Il y a 2 TRUE sur un total de 7 éléments
-(2/7) * 100
+# Il y a 3 TRUE sur un total de 10 éléments
+(3/10) * 100
 ```
 
 
@@ -965,8 +968,8 @@ duplicated(vec)
 # les NA sont les éléments 2, 4, 6 et 12 Et c'est exactement ce que which retourne:
 which(is.na(vec))
 
-# si on veux savoir l'index des voitures citroens dans le vecteur marque.voitures
-which(marque.voiture == 'citroen')
+# si on veux savoir l'index des chats de race Persan dans le vecteur chats.race
+which(chats.race == 'Persan')
 
 # is.finite() retourne toutes les valeurs qui ne sont pas NA, NaN, Inf, -Inf
 # Donc si on demande a which(), quels éléments 
@@ -1003,123 +1006,115 @@ which(vec == max(vec))
 ```{r}
 # Pour les matrices et les data.frames c'est la même logique
 
-# combinez les vecteurs d'age, prix et cout des voitures
-mat.voiture <-cbind(age.voiture, cout.voiture, prix.voiture)
-mat.voiture
+# combinez les vecteurs d'age, poids et heures de sommeils 
+# des chats dans la matrice mat.chats
+mat.chats <-cbind(chats.age, chats.poid, chats.sommeil)
+mat.chats
 
-colnames(mat.voiture) <-c("age","cout","prix")
+colnames(mat.chats) <-c("age","poid","sommeil")
 
-# indexez la matrice en séléctionnant seulement les voitures de 3 ans ou plus
-# L'âge des voiture est dans le première colonne, donc vous 
-# indexez en utilisant "mat.voiture[,1]"
-mat.voiture[mat.voiture[,1]>3,]
+# Indexez la matrice en séléctionnant seulement les chats de moins de 5 ans 
+# L'âge des chats est dans la première colonne, donc vous 
+# indexez en utilisant "mat.chats[,1]"
+mat.chats[mat.chats[,1]<5,]
 
-# trouvez les voitures où le coût de production est égale à 10000 euros 
-# ET que le prix de vente est inférieure à 14000 euros?
+# Trouvez les chats de moins de 10 ans qui dorment exactement 18h par jour
 
-# ici c'est en utilisant le nombre de la colonne
-mat.voiture[mat.voiture[,2] == 10000 & mat.voiture[,3] < 14000,]
+# En utilisant le nombre de la colonne
+mat.chats[mat.chats[,1] < 10 & mat.chats[,3] == 18,]
 
 # en utilisant le nom de la colonne
-mat.voiture[mat.voiture[,"cout"] == 10000 & mat.voiture[,"prix"] < 14000,]
+mat.chats[mat.chats[,"age"] < 10 & mat.chats[,"sommeil"] == 18,]
 
+df.chats <- data.frame(nom = chats.nom, sexe = chats.sexe, race =chats.race, mat.chats, stringsAsFactors = FALSE)
+df.chats
 
+# affichez toutes les propriétés des chats de race Persan
+df.chats[df.chats$race == "Persan",]
 
-
-df.voiture <- data.frame(mat.voiture, marque = marque.voiture, stringsAsFactors = FALSE)
-
-# affichez toutes les propriétés des voitures citroens
-df.voiture[df.voiture$marque == "citroen",]
-
-# affichez toutes les propriétés des voitures citroens et bmw
-df.voiture[df.voiture$marque %in% c("citroen","bmw"),]
+# affichez toutes les propriétés des chats de race Persan et des chats sans race
+df.chats[df.chats$race %in% c("Persan","Goutière"),]
 
 # en utilisant la fonction subset
 # subset (df, subset = la condition, select = les colonnes désirées)
-subset(df.voiture, subset = marque %in% c("citroen","bmw"))
+subset(df.chats, subset = race %in% c("Persan","Goutière"))
 
-# vous pouvez maintenant combiner ces fonctions pour calculer des stats
-# par exemple, quel est le prix moyene des voitures citroen et bmw dans la base de données?
-vec <- subset(df.voiture, subset = marque %in% c("citroen","bmw"), select = 'prix')
+# l'argument select dans "subset" indique quelles variables du data.frame on voudrais extraire (par défault ces tous les variables)
+df2 <- subset(df.chats, subset = race %in% c("Persan","Goutière"), select = 'sommeil')
 
-mean(vec)
+# Quel est la moyenne d'heure de sommeil des chats de race Persan et sans race
+mean(df2)
 # Pourquoi ca ne marche pas??
-class(vec)
+class(df2)
 # Parce que la fonction subset retourne un data.frame (même si c'est juste un vecteur)
 # Pour acceder au vecteur dans le data frame, il faut utiliser le "$" 
-mean(vec$prix)
-
+mean(df2$sommeil)
 
 #sinon vous pouvez le faire en une ligne en utilisant $
-
-mean(df.voiture$prix[df.voiture$marque %in% c("citroen","bmw")])
+mean(df.chats$sommeil[df.chats$race %in% c("Persan","Goutière")])
 
 ```
 
-
 ### Autres fonctions utiles
 
-* *with()*
-* *unique()*
-* *order()*
-* *table()*
-* *na.omit()*
 
-La fonction *with()* facilite les opérations avec plusieurs colonnes d'un data.frame.
-La fonction *unique()* retourne toute les valeurs uniques d'un vecteur.
+* *unique()*
+  * *sort()*
+  * *order()*
+  * *table()*
+  * *na.omit()*
+  
+  
+  La fonction *unique()* retourne toute les valeurs uniques d'un vecteur.
+La fonction *sort()* organise les valeurs en ordre croissante.
 La fonction *order()* retourne des indices avec l'ordre croissantes des éléments. Ce vecteur d'indices peux-être utiliser pour changer l'ordre d'un vecteur, matrice ou data.frame.
 La fonction *table()* retourne un comptage du nombre de fois que chaque catégorie apparait dans un vecteur. Si il y a plusieurs vecteurs de catégorie, la fonction retourne un tableau de contigence avec le nombre d'élément dans chaque combination de catégories entre facteurs.
 La fonction *na.omit()* elimine toutes les valeurs mancantes. Dans un datatrame ou une matrice, elle élimine toutes les lignes contenant des valeurs mancantes.
 \  
 
+
 ```{r}
+# Combiens il y a t'il de race de chats?
 
-# Si vous voulez savoir combien est la marge dans une vente de voiture et après diviser le résultats par leurs age
-(df.voiture$prix - df.voiture$cout) /  df.voiture$age
-# la fonction with() vous permet de faire le même calcule avec moins d'écriture
-with(df.voiture, (prix - cout)/ age)
-
-# Combiens il y a t'il de marque de voiture?
-
-# Extraire les valeurs uniques du vecteur des "marques"
-marques <- unique(df.voiture$marque)
+# Extraire les valeurs uniques du vecteur des "chats.race"
+races <- unique(df.chats$races)
 # Calculer la longueur du vecteur 
-length(marques)
+length(races )
 
 # en une ligne 
-length(unique(df.voiture$marque))
+length(unique(df.chats$race))
 
 
-# Donnees-moi l'indice d'ordre croissante des couts des voitures
-idx_cout <- order(df.voiture$cout)
-df.voiture$cout
-idx_cout
+# Donnees-moi l'indice d'ordre croissante des poids des chats
+idx_poids <- order(df.chats$poid)
+idx_poids
 
-# Organiser le tableau données avec l'ordre des couts de voiture
-df.voiture[idx_cout,]
+# Organiser le tableau données avec l'ordre des poids des chats
+df.chats[idx_poids,]
 
 # Par défault order mets un ordre croissante. Si vous voulez l'ordre décroissante
-df.voiture[order(df.voiture$cout, decreasing =TRUE),]
+df.chats[order(df.chats$poid, decreasing =TRUE),]
 
 # Si vous voulez organiser le tableau par plusieurs colonnes. Par exemple, organiser 
-# l'ordre des cout et ensuite reordonner par l'ordre des prix
-df.voiture[order(df.voiture$cout, df.voiture$prix),]
+# l'ordre des heures de sommeil et ensuite reordonner par l'ordre des poids
+df.chats[order(df.chats$sommeil, df.chats$poid, decreasing =TRUE),]
 # Il va donner toujours priorité à la première colonne
 ```
+
 
 ## Gestion du repertoire de travail et import/export des données
 
 ### Répertoire de travail
 
 Pour vérifier quel est le "working directory" actuel, utilisez la fonction *getwd()*
-
+  
 ```{r}
 getwd()
 
 ```
 
 Pour avoir la liste des fichiers dans le "working directory" actuel, utilisez la fonction *liste.files()*
-
+  
 ```{r}
 list.files()
 
@@ -1127,9 +1122,9 @@ list.files()
 
 Pour changer votre working directory, utilisez la fonction *setwd()* avec l'adresse du nouveau repertoire en format caractère 
 
-```{r}
+```{r, eval = FALSE}
 # Par exemple
-# setwd("D:/work/atelier/")
+setwd("D:/work/atelier/")
 
 ``` 
 
@@ -1145,11 +1140,12 @@ paste('chien', 'et','chat', sep ='+')
 paste('chien', 'et','chat', sep ='/')
 
 # Vous voyez où on s'en vas?
-
-# setwd(paste(getwd(),dir, sep = '/'))
-# Où "dir" seraos un sous-répertoire localisé à l'intérieur du répertoire de travail
-
+  
+  # setwd(paste(getwd(),dir, sep = '/'))
+  # Où "dir" seraos un sous-répertoire localisé à l'intérieur du répertoire de travail
+  
 ```
+
 
 
 ### Imports de données
@@ -1175,33 +1171,33 @@ Vous pouvez également fournir un chemin sur le web pour télécharger vos donn�
 
 ```{r eval=FALSE}
 # par exemple: 
-df <- read.table(file ='https://raw.githubusercontent.com/RenatoHS/parallel_null_modelling/master/data/lake.comm.txt', sep=';')
+df <- read.table(file ='https://raw.githubusercontent.com/RenatoHS/
+                 parallel_null_modelling/master/data/lake.comm.txt', sep=';')
 ```
-
 
 Si vous voulez voir tout les argument qu'une fonction possède, 
 vous pouvez utilez la fonction *args()*:
-
+  
 ```{r}
 args(read.table)
 ```
 
 Affichez les premières lignes du tableau avec *head()*:
-
+  
 ```{r eval=FALSE}
 head(df)
 ```
 
 Affichez la structure du tableau avec la fonction *str()*:
-
+  
 ```{r eval=FALSE}
 str(df)
 ```
 
 Est-ce que  vous voyez un problème? 
-Toutes les colonnes sont affichées comme des "facteurs". 
+  Toutes les colonnes sont affichées comme des "facteurs". 
 Ceci viens du fait que la première ligne du fichier "donnees_exemple.txt" est une ligne d'entêtes. Par defaul la fonction assume qu'il n'y a pas de ligne d'entête. Pour changer ça il faut définir l'argument *header = TRUE*. Si vous voulez aussi que les colonnes de caractères ne soient pas considérées des facteurs, il faut définir l'argument *stringAsFactors = FALSE*
-
+  
 ```{r eval=FALSE}
 df <- read.table(file ='donnees_exemple.txt', sep=';', header= TRUE, stringsAsFactors = FALSE)
 
@@ -1210,14 +1206,15 @@ str(df)
 # Maitenant chaque colonne a la classe apropriée aux types d'élément qu'elle contient
 ```
 
-
-Si vous voulez importer des données '.csv. il faut utiliser la fonction *read.csv()* qui est exactement pareil à read.table() avec l'exeception que le défault de l'argument de séparation est `r text_spec("sep = ';'", background = '#E6E6E6')`.
+Si vous voulez importer des données **.csv** il faut utiliser la fonction *read.csv()* qui est exactement pareil à *read.table()* avec l'exception que le défault de l'argument de séparation est `r text_spec("sep = ';'", background = '#E6E6E6')`.
 
 ### Export de données
 
-Pour exporter vos données il y a plusieurs manières. La fonction pair de "read.table" est la fonction *write.table*
+Pour exporter vos données il y a plusieurs manières. Pour copier un .txt il y a la fonction *write.table()*.
+Il existe également la fonction *write.csv()* pour créer un fichier avec sep = ';'.
 
-```{r}
+
+```{r eval=FALSE}
 
 # creez un sous-group de df avec seulement les lignes qui contiennent "Perca fluviatilis"
 # df2 <- subset(df, subset = sp_nom == "Perca fluviatilis")
@@ -1230,35 +1227,37 @@ Pour exporter vos données il y a plusieurs manières. La fonction pair de "read
 ```
 
 
+
 ### Autres fonctions de gestion du répertoire de travail
 
 * *ls()* 
-* *rm()*
-
-La fonction *ls()* permet d'afficher tout les objets que vous aves dans votre environnement de travail sur R
-```{r}
+  * *rm()*
+  
+  
+  La fonction *ls()* permet d'afficher tout les objets que vous aves dans votre environnement de travail sur R
+```{r, eval = FALSE}
 #ceci retourne un vecteur de caractère avec le nom de tous les objets de votre environnement de travail
-ls()
+# ls()
 ```
 
 La fonction *rm()* permet de "remove" un ou plusieurs objets de  votre environnement de travail sur R
-```{r}
+```{r, eval = FALSE}
 # ceci éfface les objets "df" et "df2"
 # rm(df,df2)
 
 # si vous voulez tout effacer
-rm(list = ls())
-
+# rm(list = ls())
 ```
+
 
 # MODULE III
 
 ## Les conditions If/Else
 
 Maintenant que vous savez comme utiliser les opérations de comparaison et les opérations logiques, vous pouvez les utilisés dans le cadre des conditions *if()* et *else()*. Ceci permet que vos scripts et fonctions ce comportement de manières différentes selon les objets qui traîtent. La structure générale d'une condition *if* est:
-
-### IF
-
+  
+  ### IF
+  
 ```{r, eval = FALSE}
 if(condition){
   
@@ -1310,24 +1309,24 @@ x <- 4
 
 # si x est négatif
 if(x < 0){
-  # fais ceci
-  
-  print('x est un nombre négatif')  
-  
-  # sinon
+# fais ceci
+
+print('x est un nombre négatif')  
+
+# sinon
 }else{ 
-  # fais cela
-  
-  print('x est un chiffre positif')
+# fais cela
+
+print('x est un chiffre positif')
 }
 ```
 
 ### ELSE IF
 
-Enfin, R vous permet de créer multiple conditions avec la fonction *else if()*, qui doit être localisé entre *if()* et *else()*
+R vous permet aussi de créer multiple conditions avec la fonction *else if()*, qui doit être localisé entre *if()* et *else()*
 
 Par exemple dans notre script, qu'est-ce qui se passe si x = 0 ? Vous pouvez inclure cette condition avec *else if()*
-
+  
 ```{r}
 x <- 0
 
@@ -1348,6 +1347,59 @@ if(x < 0){
 
 ```
 
+### Conditions if-else emboitées
+
+Enfin, vous pouvez créer des scripts avec multiples conditions *else if* et aussi emboiter d'autres conditions à l'intérieur de la condition principale. 
+
+
+```{r, eval = FALSE}
+# fonction sample pour choisir un chat aléatoirement
+x <- sample(nrow(df.chats),1)
+
+if(df.chats$race[x] == "Persan"){
+  
+  if(df.chats$sexe[x] == "M"){
+    print("C'est un chat Persan mâle")
+    
+  }else{
+    print("C'est un chat  Persan femelle")
+  }
+}else if (df.chats$race[x] == 'Main Coon'){
+  
+  if(df.chats$sexe[x] == "M"){
+    print("C'est un chat Main Coon mâle")
+    
+  }else{
+    print("C'est un chat Main Coon femelle")
+  }
+}else if (df.chats$race[x] == 'Siamois'){
+  
+  if(df.chats$sexe[x] == "M"){
+    print("C'est un chat Siamois mâle")
+    
+  }else{
+    print("C'est un chat Siamois femelle")
+  }
+  
+}else if (df.chats$race[x] == 'Angora'){
+  
+  if(df.chats$sexe[x] == "M"){
+    print("C'est un chat Angora mâle")
+    
+  }else{
+    print("C'est un chat Angora femelle")
+  }
+  
+}else{
+  if(df.chats$sexe[x] == "M"){
+    print("C'est un chat sans race mâle")
+    
+  }else{
+    print("C'est un chat sans race femelle")
+  }
+}
+```
+
 
 ## Boucles (for loop)
 
@@ -1357,9 +1409,9 @@ La structure générale d'un loop est
 
 ```{r, eval = FALSE}
 for(loop.iterateur in loop.objet){
-  
-  LOOP.CODE
-  
+
+LOOP.CODE
+
 }
 ```
 
@@ -1375,23 +1427,23 @@ Par example
 chats.nom
 
 for(chats in chats.nom){
-  
-  print(chats)
-  
+
+print(chats)
+
 }
 # si on veux avoir accès a l'index du loop pour indexerun autre objet, il faut le faire explicitement
 
 for(i in 1:length(chats.nom)){
-  
-  print(paste(chats.nom[i],"a besoin de", chats.sommeil[i], 'heures de sommeil pour survivre'))
-  
+
+print(paste(chats.nom[i],"a besoin de", chats.sommeil[i], 'heures de sommeil pour survivre'))
+
 }
 
 #R fait ceci
 
 for(i in 1:10){
-  
-  print(chats.nom[i])
+
+print(chats.nom[i])
 }
 ```
 
@@ -1403,24 +1455,24 @@ Le premier interrompt la boucle et le deuxième interromp l'iteration qui es en 
 # On utilise la fonction nchar() pour conter le nombre de caractère dans un string
 # Il devrait s'arreter dès qui rencontre le nom "MAYA" qui est avant "PATOUNE"
 for(chats in chats.nom){
-  
-  if(nchar(chats)== 4){
-    break
-  }
-  
-  print(chats)
-  
+
+if(nchar(chats)== 4){
+break
+}
+
+print(chats)
+
 }
 # Ici il ignore le reste du code dans la boucle quand il exectute "next" et il passe à la prochaine itération.
 # Si notre code marche, il ne doit pas imprimer les noms "MAYA" et "LUNA"
 for(chats in chats.nom){
-  
-  if(nchar(chats)== 4){
-    next
-  }
-  
-  print(chats)
-  
+
+if(nchar(chats)== 4){
+next
+}
+
+print(chats)
+
 }
 ```
 
@@ -1430,20 +1482,20 @@ Si vous utiliser la sintaxe de for loop direct sur les listes, la boucle va cons
 
 ```{r}
 # version direct sans obtenir l'index
-list.chats <- list(chats.nom, chats.poids, chats.age, chats.race, chats.sexe, chats.sommeil)
+list.chats <- list(chats.nom, chats.poid, chats.age, chats.race, chats.sexe, chats.sommeil)
 
 for (chat in list.chats){
-  
-  print(chat)
-  
+
+print(chat)
+
 }
 
 # version avec obtention de l'index du loop
 for(ch in 1:length(list.chats)){
-  
-  print(list.chats[[ch]])
-  
-  
+
+print(list.chats[[ch]])
+
+
 }
 
 
@@ -1465,14 +1517,14 @@ Si vous utiliser la sintaxe de for loop direct sur les matrices et data.frames, 
 
 
 for(i in 1:nrow(mat.chats)){
-  
-  # calculez le nombre de jours qui a vécu un chat 
-  # Assumez que toutes les années on 365 jours
-  n_jours <- mat.chats[i,"age"]*365
-  
-  n_heures_sommeil <- n_jours * mat.chats[i,"sommeil"]
-  
-  
+
+# calculez le nombre de jours qui a vécu un chat 
+# Assumez que toutes les années on 365 jours
+n_jours <- mat.chats[i,"age"]*365
+
+n_heures_sommeil <- n_jours * mat.chats[i,"sommeil"]
+
+
 }
 n_heures_sommeil
 
@@ -1486,12 +1538,12 @@ Une façon:
 # Créez un objet vide
 n_heures_sommeil<-NULL
 for(i in 1:nrow(mat.chats)){
-  
-  # calculez le nombre de jours qui a vécu un chat 
-  # Assumez que toutes les années on 365 jours
-  n_jours <- mat.chats[i,"age"]*365
-  
-  n_heures_sommeil <- c(n_heures_sommeil, n_jours * mat.chats[i,"sommeil"])
+
+# calculez le nombre de jours qui a vécu un chat 
+# Assumez que toutes les années on 365 jours
+n_jours <- mat.chats[i,"age"]*365
+
+n_heures_sommeil <- c(n_heures_sommeil, n_jours * mat.chats[i,"sommeil"])
 }
 n_heures_sommeil
 ```
@@ -1502,14 +1554,14 @@ Une autre fácon est de créer un objet qui à la taille atendu du résultat fin
 \ 
 ```{r}
 # Cette fois-si il faut utiliser NA et pas NULL parce que NULL n'occupe pas d'espace
-n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+n_heures_sommeil<-rep(NA, length = nrow(mat.chats))
 for(i in 1:nrow(mat.chats)){
-  
-  # calculez le nombre de jours qui a vécu un chat 
-  # Assumez que toutes les années on 365 jours
-  n_jours <- mat.chats[i,"age"]*365
-  
-  n_heures_sommeil[i] <-  n_jours * mat.chats[i,"sommeil"]
+
+# calculez le nombre de jours qui a vécu un chat 
+# Assumez que toutes les années on 365 jours
+n_jours <- mat.chats[i,"age"]*365
+
+n_heures_sommeil[i] <-  n_jours * mat.chats[i,"sommeil"]
 }
 n_heures_sommeil
 
@@ -1519,17 +1571,17 @@ vous pouvez mélanger un for loop avec des conditions if.
 Imaginez que vous voulez les heures de sommeils seulement des chats siamois et persans
 
 ```{r}
-n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+n_heures_sommeil<-rep(NA, length = nrow(mat.chats))
 for(i in 1:nrow(mat.chats)){
-  
-  if(chats.race[i] %in% c('Siamois','Persan')){
-  # calculez le nombre de jours qui a vécu un chat 
-  # Assumez que toutes les années on 365 jours
-  n_jours <- mat.chats[i,"age"]*365
-  
-  n_heures_sommeil[i,1] <-  n_jours * mat.chats[i,"sommeil"]
-  }
-  
+
+if(chats.race[i] %in% c('Siamois','Persan')){
+# calculez le nombre de jours qui a vécu un chat 
+# Assumez que toutes les années on 365 jours
+n_jours <- mat.chats[i,"age"]*365
+
+n_heures_sommeil[i] <-  n_jours * mat.chats[i,"sommeil"]
+}
+
 }
 n_heures_sommeil
 
@@ -1557,7 +1609,7 @@ sd_x
 Chaque fonction a ça propre documentation qui est accessible en utilisant une autre fonction, la fonction *help()*.
 Une autre façon est de mettre un **?** devans la fonction qu'on voudrais acceder la documentation.
 
-```{r}
+```{r, eval = FALSE}
 
 help(sd)
 
@@ -1566,21 +1618,23 @@ help(sd)
 
 ```
 
+### Arguments dans les fonctions
+
 On observe que la fonction *sd()* viens avec deux argument de "input", x et na.rm = FALSE. 
 Comment ça se fait t'il qu'elle fonctionne quand on inclus seuleument un argument? Ce qui se passe c'est que l'argument "na.rm" viens déjà avec une valeur défault ( = FALSE). Cet argument indique si l'utilisateur veux que la fonction *sd()* élimine les valeurs mancantes pour calculer l'écart-type. Donc si l'utilisateur n'inclus pas de valeur pour na.rm, la fonction adopte une valeur FALSE par défault, et la fonction est éxécutée.
 \  
 Par contre si l'utilisateur ne spécifie pas "x", R retourne une erreur.
 \  
-```{r}
+```{r, error=TRUE}
 
-sd()
+#sd()
 
 ```
 
 R reconnais chaque argument par ça position dans la fonction. C'est pour ça qu'on a pas besoin de mettre comme input un x. La fonction va considérer automatiquement n'importe quel objet qu'on met dans la première position dans la fonction comme "x". 
 Donc si vous invertez les leurs de x est de na.rm il y aura une erreur
-```{r}
-sd(TRUE,chiffres)
+```{r, error=TRUE}
+#sd(TRUE,chiffres)
 
 ```
 
@@ -1611,4 +1665,239 @@ sd(na.rm=TRUE,x = chiffres)
 * Les arguments des fonctions peuvent être spécifié par **position** ou par **nom**
 * Quelques arguments des fonctions R ont déjá une option/valeur défault qui est reconnaisable par le "=".
 * D'autres arguments n'ont pas d'option de défault, est la fonction retourne une erreur si ceux-ci ne sont pas spécifié.
+
+### Creez votre propre fonction
+
+Quand vous realizez que vous utilisez un script de R trop souvant, c'est le moment de le transformer en fonction. 
+R permet de créer des fonctions qui sont spécifique au problème que vous voulez résoudre. Ça dépend seulement de votre créativité.
+
+La structure d'une fonction sur R est la suivante
+\  
+```{r, eval = FALSE}
+
+my_fun <- function(arg1, arg2, ...){
+
+
+Corp de la fonction
+
+
+
+}
+```
+\ 
+Pour commencer, un exemple très simple
+Vous voulez créer une fonction qui calcule le carré d'un chiffre.
+\  
+```{r}
+carre <- function(x){
+x^2
+}
+carre(9)  
+
+```
+\  
+Si vous ne spécifiez pas, la fonction vous retourne le dernier objet créé. Pour spécifiez le output, vous devrez utiliser la fonction *return()*
+\  
+```{r}
+carre <- function(x){
+y <- x^2
+return(y)
+}
+carre(9)  
+
+```
+\  
+Vous pouvez bien sur affécté le résultat à une variable
+\  
+```{r}
+
+z <- carre(9)  
+z
+
+```
+\  
+Si vous voulez généraliser la fonction pour n'importe quel exponent, ajoutez un deuxième argument
+\  
+```{r}
+my_exp <- function(x, exp){
+y <- x^exp
+return(y)
+}
+my_exp(3,3)  
+```
+\  
+Si vous voulez que l'argument *exp* soit optionnel, vous pouvez lui donner une valeur défault. 
+\  
+```{r}
+my_exp <- function(x, exp = 2){
+y <- x^exp
+return(y)
+}
+my_exp(3)  
+```
+\  
+Une autre example. Une fonction que divisie le premier argument par le deuxième, et ensuite somme avec la multiplication de ces deux arguments.
+\  
+```{r}
+my_fun_math <- function(x,y){
+
+x/y + x*y
+
+
+}
+my_fun_math(4,2)
+
+```
+\  
+Maintenant avec le deuxième argument en default = 1
+```{r}
+my_fun_math <- function(x,y = 1){
+
+x/y + x*y
+
+
+}
+my_fun_math(4)
+
+```
+\  
+Vous vous demandez peut-etre, à quoi sert la fonction *return()* si notre fonction retourne l'objet désiré sans l'utiliser? 
+Si la fonction *return()* est utilisé au millieu de votre fonction, elle va retourner le output désiré et le restant du corps de la fonction est ignoré.
+Ceci est utiles avec des conditions IF. Voici un example:
+
+
+En R, si vous divisez un nombre par 0, il retorune *Inf* (infini)
+
+```{r}
+4/0
+```
+
+Vous voulez éviter que le résultats de votre fonction retoure infini.
+
+```{r}
+my_fun_math <- function(x,y = 1){
+
+if(x | y == 0){
+return(0)
+}
+
+x/y + x*y
+}
+my_fun_math(4,0)
+my_fun_math(0)
+my_fun_math(0,4)
+
+```
+
+Ici vous voyez que la fonction *return()* retourne le output 0 et le reste du code est ignoré. 
+\  
+Dernier points: 
+
+Les variables définis à l'intérieur d'une fonction ne sont pas accessible à l'extérieur de la fonction (i.e., dans l'environnement global).
+
+À moins que vous le demandez explicitement, le input d'une fonction ne changera pas à l'éxtérieur de la fonction.
+Voici un example
+```{r}
+increment <-function(x, inc = 1){
+x + inc
+x
+}
+count <- 5
+increment(count,5)
+```
+
+D'après vous, la variable **count** est 5 ou 10? 
+
+
+### Packages
+
+Les packages sont des bibliothèques de fonctions programmées par les utilisateurs de R et mises à disposition de la communauté des utilisateurs de R.
+Il y a des centaines, voir des milliers de packages disponible sur le net. 
+
+#### Instalation de package
+
+```{r, eval = FALSE}
+
+install.packages("lubridate")
+
+```
+
+#### Activation du package
+
+```{r}
+
+library("lubridate")
+# ou 
+require("lubridate")
+
+
+```
+
+#### Affichez toutes les fonctions d'un packages
+
+```{r, eval = FALSE}
+ls("package:lubridate")
+
+# Vous pouvez auassi verifier la documentation d'un package avec ?package
+```
+
+Le package que vous avez importé et activé sers à aider la manipulation des variables de dates 
+
+```{r}
+
+# Par example, retournons à notre vecteur "dates" du début
+dates
+
+# Pour extraire le mois de chaque date il y à la fonction month()
+month(dates)
+# Pour extraire l'annnée de chaque date il y à la fonction year()
+year(dates)
+# Pour extraire le jour de chaque date il y à la fonction day()
+day(dates)
+
+```
+
+Si vous créez une fonction qui utilise des fonctions d'un package, il ne faut pas oublier de faire appel au package dans le corp de votre fonction avec *require()* !! Sinon, votre fonction ne marchera pas. 
+
+### Quelques ressources sur R
+
+Pour trouvez la liste de package dans le serveur CRAN, allez vers se [LIEN](https://cran.r-project.org/web/packages/available_packages_by_name.html).
+
+Vous pouvez aussi visiter le site de [R-Bloggers](https://www.r-bloggers.com/)
+
+Si vous avez des questions par rapport à R, allez au site [stackoverflow](https://stackoverflow.com/)
+
+## Graphiques
+
+Le logiciel R est très performant quand le sujet est la visualisation des données. R permet de manipuler chaque composante d'un graphique et donc possibilite une personnalisation de vos graphiques à vos besoins particuliers.De nombreux packages on été dévéloppé pour faciliter la production de  graphique sur R. Le plus connu de tous est ggplot2, mais il y en as des dizaines d'autres (lattice`, grid, etc).
+\  
+Par contre, pour cette formation on va utiliser le package graphics, qui est la librarie de base de R pour produire des graphiques.
+Pour avoir un aperçu des possibilités de ce package 
+
+```{r, eval = FALSE}
+demo(graphics)
+```
+
+Pour avoir la liste de fonctions de *graphics*
+```{r, eval = FALSE}
+ls("package:graphics")
+```
+
+
+### Diagramme de dispersion (Scatterplot)
+
+Vous pouvez créez un diagrame de dispersion avec la fonction *plot()*
+
+```{r}
+# Si votre "input" consiste a seulement un vecteur, la fonction matchera votre vecteur avec une séquence de chiffres de 1 à length(votre_input)
+
+# Par example, si on veut voir un diagramme de dispersion de l'âge des chats
+plot(df.chats$age)
+
+# Comme il y a 10 chats, la fonction vous créé automatiquement un axe de 1 à 10
+
+
+# Si vous voulez visualiser le nombre d'heures de sommeil des chats versus leurs âge 
+plot(df.chats$age, df.chats$sommeil)
+```
 
