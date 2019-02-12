@@ -1099,6 +1099,11 @@ df.chats[order(df.chats$poid, decreasing =TRUE),]
 # l'ordre des heures de sommeil et ensuite reordonner par l'ordre des poids
 df.chats[order(df.chats$sommeil, df.chats$poid, decreasing =TRUE),]
 # Il va donner toujours priorité à la première colonne
+
+# Combiens de chats il y a de chaque race?
+table(df.chats$race)
+# Combiens de chats il y a de chaque combinaison de race et sexe?
+table(df.chats$race, df.chats$sexe)
 ```
 
 
