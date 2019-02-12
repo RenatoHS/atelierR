@@ -202,11 +202,6 @@ liste_b$camp_peche$espece
 ```
 ## Indexation par condition
 
-```{r echo=FALSE, out.width = '50%'}
-knitr::include_graphics(paste(getwd(), "fig/logical_indexing.png", sep ='/'))
-```
-
-
 Montrer une operation en créant à la main un vecteur logique
 ```{r, eval = FALSE}
 #vec <- c(1,2,3,4,5)
@@ -706,7 +701,7 @@ PAS OPTIMALE --> allocation du vecteur
 \ 
 ```{r, eval = FALSE}
 # Cette fois-si il faut utiliser NA et pas NULL parce que NULL n'occupe pas d'espace
-n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+n_heures_sommeil<- rep(NA, length = nrow(mat.chats))
 for(i in 1:nrow(mat.chats)){
   
   # calculez le nombre de jours qui a vécu un chat 
@@ -722,7 +717,7 @@ n_heures_sommeil
 MIX LOOP ET CONDITIONS IF
 
 ```{r, eval = FALSE}
-n_heures_sommeil<-vector(NA, length = nrow(mat.chats))
+n_heures_sommeil<-rep(NA, length = nrow(mat.chats))
 for(i in 1:nrow(mat.chats)){
   
   if(chats.race[i] %in% c('Siamois','Persan')){
